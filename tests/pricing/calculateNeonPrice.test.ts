@@ -91,9 +91,7 @@ describe('calculateNeonPrice', () => {
     const result = calculateNeonPrice(baseInput, 1500, { isEstimated: true });
 
     expect(result.tubeLengthM).toBe(1.5);
-    expect(result.warnings).toContain(
-      '실리콘 튜브 길이는 문자 윤곽선 기반 자동 계산 값입니다 — 실제 제작 전 확인이 필요합니다.'
-    );
+    expect(result.warnings).toContain('실리콘 튜브 길이는 문자 윤곽선 기반 자동 계산 값입니다.');
   });
 
   it('warns when a fallback font was used for missing glyphs', () => {

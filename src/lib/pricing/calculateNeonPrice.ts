@@ -57,7 +57,7 @@ export function calculateNeonPrice(
   const accessoriesCost = accessoryLines.reduce((sum, line) => sum + line.cost, 0);
 
   if (options.isEstimated) {
-    warnings.push('실리콘 튜브 길이는 문자 윤곽선 기반 자동 계산 값입니다 — 실제 제작 전 확인이 필요합니다.');
+    warnings.push('실리콘 튜브 길이는 문자 윤곽선 기반 자동 계산 값입니다.');
   }
   if (options.usedFallbackFont) {
     warnings.push('선택한 폰트가 일부 문자를 지원하지 않아 대체 폰트로 길이를 계산했습니다.');

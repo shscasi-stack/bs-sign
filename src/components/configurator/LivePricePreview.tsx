@@ -25,6 +25,9 @@ export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) 
                 {warning}
               </Badge>
             ))}
+            <p className="text-xs text-muted-foreground">
+              이 견적은 참고용입니다. 정확한 금액은 시안을 확정해야 알 수 있습니다.
+            </p>
           </>
         ) : (
           <div className="text-sm text-muted-foreground">가격 계산 중...</div>
