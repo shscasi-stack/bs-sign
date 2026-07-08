@@ -3,7 +3,6 @@ import {
   ArrowRightIcon,
   ClockIcon,
   PackageCheckIcon,
-  ShieldCheckIcon,
   TruckIcon,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -13,7 +12,6 @@ import { getProductsByCategory } from '@/lib/data/products';
 
 const TRUST_POINTS = [
   { icon: ClockIcon, label: '당일 상담 · 빠른 견적' },
-  { icon: ShieldCheckIcon, label: '실내외 시공 가능' },
   { icon: PackageCheckIcon, label: '소량 제작 가능' },
   { icon: TruckIcon, label: '전국 배송' },
 ];
@@ -77,7 +75,7 @@ export default function Home() {
       </section>
 
       <section className="border-y bg-muted/30 px-4 py-12">
-        <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl gap-6 sm:grid-cols-3">
           {TRUST_POINTS.map((point) => (
             <div key={point.label} className="flex items-center gap-3">
               <point.icon className="size-5 shrink-0 text-primary" />
