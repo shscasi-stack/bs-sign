@@ -1,0 +1,12 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "next-dev",
+      "runtimeExecutable": "C:\\Users\\User\\Desktop\\홈페이지\\.claude\\run-dev.cmd",
+      "runtimeArgs": [],
+      "port": 3100,
+      "autoPort": true
+    }
+  ]
+}
