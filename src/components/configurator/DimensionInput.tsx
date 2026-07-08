@@ -17,7 +17,7 @@ export function DimensionInput({ widthMm, heightMm, onChange }: DimensionInputPr
   return (
     <div className="grid grid-cols-2 gap-4">
       <div className="space-y-1.5">
-        <Label htmlFor="width-mm">가로 (mm)</Label>
+        <Label htmlFor="width-mm">베이스판 가로 (mm)</Label>
         <Input
           id="width-mm"
           type="number"
@@ -32,7 +32,7 @@ export function DimensionInput({ widthMm, heightMm, onChange }: DimensionInputPr
         )}
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="height-mm">세로 (mm)</Label>
+        <Label htmlFor="height-mm">베이스판 세로 (mm)</Label>
         <Input
           id="height-mm"
           type="number"
