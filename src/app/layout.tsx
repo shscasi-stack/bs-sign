@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://www.bs-sign.com"),
   title: "백송LED네온",
   description: "LED네온 · 고무스카시 · 아크릴가공 · 포맥스 사인물 전문 제작",
+  verification: {
+    other: {
+      "naver-site-verification": "61e23bc9e7db05b1ff1d694a7e1ec42809c72082",
+    },
+  },
 };
 
 export default function RootLayout({
