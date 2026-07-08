@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.bs-sing.com"),
+  metadataBase: new URL("https://www.bs-sign.com"),
   title: "백송LED네온",
   description: "LED네온 · 고무스카시 · 아크릴가공 · 포맥스 사인물 전문 제작",
 };

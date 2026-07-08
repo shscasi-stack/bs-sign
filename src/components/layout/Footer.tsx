@@ -13,7 +13,7 @@ export function Footer() {
           </p>
           <p className="mt-3 flex items-center gap-1.5 text-sm text-muted-foreground">
             <GlobeIcon className="size-3.5" />
-            <span>www.bs-sing.com</span>
+            <span>www.bs-sign.com</span>
           </p>
         </div>
 
@@ -53,7 +53,7 @@ export function Footer() {
       </div>
 
       <div className="border-t px-4 py-4 text-center text-xs text-muted-foreground">
-        © 2026 백송LED네온 (www.bs-sing.com). All rights reserved.
+        © 2026 백송LED네온 (www.bs-sign.com). All rights reserved.
       </div>
     </footer>
   );
