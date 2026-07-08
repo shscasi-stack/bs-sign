@@ -91,7 +91,19 @@ export default function Home() {
 
       <section className="px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-xl font-semibold">제작 사례 미리보기</h2>
+          <div className="flex items-baseline justify-between">
+            <Link href="/portfolio" className="group">
+              <h2 className="text-xl font-semibold group-hover:underline">
+                제작 사례 미리보기
+              </h2>
+            </Link>
+            <Link
+              href="/portfolio"
+              className="text-sm text-muted-foreground hover:text-foreground"
+            >
+              전체보기
+            </Link>
+          </div>
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {HIGHLIGHT_PRODUCTS.map((product) => (
               <Link key={product.slug} href={`/products/${product.category}`}>
