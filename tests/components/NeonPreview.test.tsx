@@ -28,37 +28,32 @@ describe('NeonPreview', () => {
     expect(html).not.toContain('<svg');
   });
 
-  it('draws the board at the entered mm dimensions and sizes the text to the entered text mm', () => {
+  it('draws the board at the entered mm dimensions with the text on it', () => {
     const html = render();
 
     expect(html).toContain('viewBox="0 0 600 300"'); // board aspect ratio = real mm
-    expect(html).toContain('font-size="150"'); // text height in mm
-    expect(html).toContain('textLength="400"'); // text width in mm
-    expect(html).toContain('stroke="#e53935"'); // selected silicone color (red)
     expect(html).toContain('>OPEN</text>');
   });
 
-  it('falls back to a proportional font size when text dimensions are not entered', () => {
-    const html = render({ textWidthMm: 0, textHeightMm: 0 });
+  it('renders 단선 as a filled solid glyph (one continuous tube, not an outline)', () => {
+    const html = render({ lineType: 'single' });
 
-    expect(html).toContain('font-size="75"'); // 25% of board height
-    expect(html).not.toContain('textLength');
+    expect(html).toContain('fill="#e53935"'); // filled with the silicone color
+    expect(html).toContain('stroke="none"'); // no outline → not a double-line look
+    expect(html).toContain('font-weight="normal"');
   });
 
-  it('maps tube thickness to the stroke width in real mm', () => {
-    expect(render({ tubeThickness: '6T' })).toContain('stroke-width="6"');
-    expect(render({ tubeThickness: '12T' })).toContain('stroke-width="12"');
+  it('renders 복선 as a bold stroke-only outline (two parallel tubes)', () => {
+    const html = render({ lineType: 'double', tubeThickness: '12T' });
+
+    expect(html).toContain('fill="none"'); // outline only
+    expect(html).toContain('stroke="#e53935"');
+    expect(html).toContain('stroke-width="12"'); // tube thickness in real mm
+    expect(html).toContain('font-weight="bold"');
   });
 
-  it('renders both line types as thin stroke-only tube, distinguished by glyph weight', () => {
-    const single = render({ lineType: 'single' });
-    expect(single).toContain('fill="none"'); // not a solid filled block
-    expect(single).toContain('stroke="#e53935"');
-    expect(single).toContain('font-weight="normal"'); // thin glyph → one line
-
-    const double = render({ lineType: 'double' });
-    expect(double).toContain('fill="none"');
-    expect(double).toContain('stroke="#e53935"');
-    expect(double).toContain('font-weight="bold"'); // fat glyph → two parallel lines
+  it('maps tube thickness to the outline stroke width for 복선', () => {
+    expect(render({ lineType: 'double', tubeThickness: '6T' })).toContain('stroke-width="6"');
+    expect(render({ lineType: 'double', tubeThickness: '12T' })).toContain('stroke-width="12"');
   });
 });

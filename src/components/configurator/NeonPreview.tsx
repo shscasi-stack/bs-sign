@@ -1,3 +1,6 @@
+'use client';
+
+import { useEffect, useRef, useState } from 'react';
 import { FONT_OPTIONS, SILICONE_COLORS } from '@/lib/pricing/pricing.constants';
 import type { LineTypeCode, TubeThicknessCode } from '@/lib/pricing/pricing.types';
 
@@ -18,6 +21,10 @@ const TUBE_THICKNESS_MM: Record<TubeThicknessCode, number> = {
   '12T': 12,
 };
 
+// Reference font size used only for measuring the text's natural bounds;
+// the glyphs are then scaled to exactly fill the requested text box.
+const REF_FONT = 100;
+
 export function NeonPreview({
   displayText,
   fontFamily,
@@ -30,11 +37,29 @@ export function NeonPreview({
   lineType,
 }: NeonPreviewProps) {
   const font = FONT_OPTIONS.find((f) => f.code === fontFamily);
-  const color = SILICONE_COLORS.find((c) => c.code === siliconeColorCode);
-  const hex = color?.hex ?? '#ffffff';
+  const hex = SILICONE_COLORS.find((c) => c.code === siliconeColorCode)?.hex ?? '#ffffff';
   const text = displayText.trim();
-
   const hasBoard = boardWidthMm > 0 && boardHeightMm > 0;
+  const isDouble = lineType === 'double';
+
+  const textRef = useRef<SVGTextElement>(null);
+  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
+
+  // Measure the glyphs' natural bounding box (excludes stroke) so the text can
+  // be scaled to the requested box without squashing letters into each other.
+  useEffect(() => {
+    const el = textRef.current;
+    if (!el || !text) {
+      setNatural(null);
+      return;
+    }
+    try {
+      const bb = el.getBBox();
+      setNatural(bb.width > 0 && bb.height > 0 ? { w: bb.width, h: bb.height } : null);
+    } catch {
+      setNatural(null);
+    }
+  }, [text, fontFamily, isDouble, hasBoard]);
 
   if (!hasBoard) {
     return (
@@ -46,21 +71,20 @@ export function NeonPreview({
     );
   }
 
-  // viewBox is in real mm, so the board's aspect ratio, the text-to-board
-  // size ratio, and the tube stroke width are all physically accurate.
-  const fontSizeMm = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
+  // viewBox is in real mm, so board aspect ratio and tube width are accurate.
   const tubeMm = TUBE_THICKNESS_MM[tubeThickness];
-  // Glow tracks the tube, not the font size — big text used to produce a huge
-  // blur that smeared thick/double-line strokes into an unreadable haze.
   const glowMm = Math.max(tubeMm * 0.35, 1);
   const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
+  const cx = boardWidthMm / 2;
+  const cy = boardHeightMm / 2;
 
-  // Both line types are stroke-only (no fill) so the text reads as thin
-  // neon tube, not a solid colored block. The single vs double distinction
-  // comes from glyph weight: a thin glyph's two outline edges merge into one
-  // line (단선), while a bold glyph's edges stay far apart and read as two
-  // parallel tubes (복선).
-  const isDouble = lineType === 'double';
+  // Requested text box, clamped so the text always sits on the board.
+  const targetW = Math.min(textWidthMm > 0 ? textWidthMm : boardWidthMm * 0.6, boardWidthMm * 0.92);
+  const targetH = Math.min(textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.4, boardHeightMm * 0.92);
+
+  const measured = natural !== null;
+  const scaleX = measured ? targetW / natural.w : 1;
+  const scaleY = measured ? targetH / natural.h : 1;
 
   return (
     <div className="flex items-center justify-center rounded-lg bg-neutral-900 p-4">
@@ -73,11 +97,11 @@ export function NeonPreview({
       >
         <defs>
           <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation={glowMm} result="blur1" />
-            <feGaussianBlur stdDeviation={glowMm * 3} result="blur2" />
+            <feGaussianBlur stdDeviation={glowMm} result="b1" />
+            <feGaussianBlur stdDeviation={glowMm * 3} result="b2" />
             <feMerge>
-              <feMergeNode in="blur2" />
-              <feMergeNode in="blur1" />
+              <feMergeNode in="b2" />
+              <feMergeNode in="b1" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
@@ -95,27 +119,34 @@ export function NeonPreview({
         />
 
         {text && (
-          <text
-            x={boardWidthMm / 2}
-            y={boardHeightMm / 2}
-            textAnchor="middle"
-            dominantBaseline="central"
-            fontSize={fontSizeMm}
-            fontWeight={isDouble ? 'bold' : 'normal'}
-            fill="none"
-            stroke={hex}
-            strokeWidth={tubeMm}
-            strokeLinejoin="round"
-            strokeLinecap="round"
-            paintOrder="stroke"
-            filter="url(#neon-glow)"
-            style={{ fontFamily: font?.cssFontFamily }}
-            {...(textWidthMm > 0
-              ? { textLength: textWidthMm, lengthAdjust: 'spacingAndGlyphs' as const }
-              : {})}
-          >
-            {text}
-          </text>
+          // Glow filter is applied outside the scale so blur stays consistent.
+          <g filter="url(#neon-glow)">
+            <g
+              transform={`translate(${cx} ${cy}) scale(${scaleX} ${scaleY})`}
+              style={{ visibility: measured ? 'visible' : 'hidden' }}
+            >
+              <text
+                ref={textRef}
+                x={0}
+                y={0}
+                textAnchor="middle"
+                dominantBaseline="central"
+                fontSize={REF_FONT}
+                // 단선(single): filled solid glyph reads as one continuous tube.
+                // 복선(double): stroke-only bold outline reads as two parallel tubes.
+                fontWeight={isDouble ? 'bold' : 'normal'}
+                fill={isDouble ? 'none' : hex}
+                stroke={isDouble ? hex : 'none'}
+                strokeWidth={isDouble ? tubeMm : 0}
+                strokeLinejoin="round"
+                strokeLinecap="round"
+                vectorEffect="non-scaling-stroke"
+                style={{ fontFamily: font?.cssFontFamily }}
+              >
+                {text}
+              </text>
+            </g>
+          </g>
         )}
       </svg>
     </div>
