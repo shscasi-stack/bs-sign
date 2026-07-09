@@ -84,6 +84,10 @@ export function ConfiguratorForm() {
           displayText={form.displayText}
           fontFamily={form.fontFamily}
           siliconeColorCode={form.siliconeColorCode}
+          boardWidthMm={form.widthMm}
+          boardHeightMm={form.heightMm}
+          textWidthMm={form.textWidthMm}
+          textHeightMm={form.textHeightMm}
         />
         <LivePricePreview breakdown={breakdown} isStale={isStale} />
       </div>

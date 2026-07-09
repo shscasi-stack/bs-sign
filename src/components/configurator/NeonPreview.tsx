@@ -4,26 +4,95 @@ interface NeonPreviewProps {
   displayText: string;
   fontFamily: string;
   siliconeColorCode: string;
+  boardWidthMm: number;
+  boardHeightMm: number;
+  textWidthMm: number;
+  textHeightMm: number;
 }
 
-export function NeonPreview({ displayText, fontFamily, siliconeColorCode }: NeonPreviewProps) {
+export function NeonPreview({
+  displayText,
+  fontFamily,
+  siliconeColorCode,
+  boardWidthMm,
+  boardHeightMm,
+  textWidthMm,
+  textHeightMm,
+}: NeonPreviewProps) {
   const font = FONT_OPTIONS.find((f) => f.code === fontFamily);
   const color = SILICONE_COLORS.find((c) => c.code === siliconeColorCode);
   const hex = color?.hex ?? '#ffffff';
-  const text = displayText.trim() || '문구를 입력해 주세요';
+  const text = displayText.trim();
+
+  const hasBoard = boardWidthMm > 0 && boardHeightMm > 0;
+
+  if (!hasBoard) {
+    return (
+      <div className="flex min-h-32 items-center justify-center rounded-lg bg-neutral-900 px-4 py-8">
+        <span className="text-center text-sm text-neutral-400">
+          베이스판 가로/세로를 입력하면 미리보기가 표시됩니다
+        </span>
+      </div>
+    );
+  }
+
+  // viewBox is in real mm, so the board's aspect ratio and the text-to-board
+  // size ratio are physically accurate regardless of screen size.
+  const fontSizeMm = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
+  const glowMm = Math.max(fontSizeMm * 0.08, 1);
+  const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
 
   return (
-    <div className="flex min-h-32 items-center justify-center overflow-hidden rounded-lg bg-neutral-900 px-4 py-8">
-      <span
-        className="text-center text-3xl leading-snug font-bold break-words"
-        style={{
-          color: hex,
-          fontFamily: font?.cssFontFamily,
-          textShadow: `0 0 4px ${hex}, 0 0 12px ${hex}, 0 0 28px ${hex}`,
-        }}
+    <div className="flex items-center justify-center rounded-lg bg-neutral-900 p-4">
+      <svg
+        viewBox={`0 0 ${boardWidthMm} ${boardHeightMm}`}
+        className="h-auto w-full"
+        style={{ maxHeight: 280 }}
+        role="img"
+        aria-label={`네온사인 미리보기: ${text || '문구 없음'}`}
       >
-        {text}
-      </span>
+        <defs>
+          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
+            <feGaussianBlur stdDeviation={glowMm} result="blur1" />
+            <feGaussianBlur stdDeviation={glowMm * 3} result="blur2" />
+            <feMerge>
+              <feMergeNode in="blur2" />
+              <feMergeNode in="blur1" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+
+        <rect
+          x="0"
+          y="0"
+          width={boardWidthMm}
+          height={boardHeightMm}
+          rx={cornerMm}
+          fill="#262626"
+          stroke="#404040"
+          strokeWidth={Math.max(boardWidthMm, boardHeightMm) * 0.004}
+        />
+
+        {text && (
+          <text
+            x={boardWidthMm / 2}
+            y={boardHeightMm / 2}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize={fontSizeMm}
+            fontWeight="bold"
+            fill={hex}
+            filter="url(#neon-glow)"
+            style={{ fontFamily: font?.cssFontFamily }}
+            {...(textWidthMm > 0
+              ? { textLength: textWidthMm, lengthAdjust: 'spacingAndGlyphs' as const }
+              : {})}
+          >
+            {text}
+          </text>
+        )}
+      </svg>
     </div>
   );
 }
