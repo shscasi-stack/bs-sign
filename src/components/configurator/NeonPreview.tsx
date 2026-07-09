@@ -78,13 +78,19 @@ export function NeonPreview({
   const cx = boardWidthMm / 2;
   const cy = boardHeightMm / 2;
 
-  // Requested text box, clamped so the text always sits on the board.
-  const targetW = Math.min(textWidthMm > 0 ? textWidthMm : boardWidthMm * 0.6, boardWidthMm * 0.92);
-  const targetH = Math.min(textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.4, boardHeightMm * 0.92);
+  // 글씨 가로/세로 is the size of ONE letter. The whole word is therefore
+  // letterCount letters wide at that per-letter proportion, then scaled down
+  // uniformly to sit on the board (never squashing letters together).
+  const letterCount = Math.max([...text].filter((c) => !/\s/.test(c)).length, 1);
+  const perLetterW = textWidthMm > 0 ? textWidthMm : boardHeightMm * 0.25;
+  const perLetterH = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
+  const intendedW = letterCount * perLetterW;
+  const intendedH = perLetterH;
+  const fit = Math.min((boardWidthMm * 0.92) / intendedW, (boardHeightMm * 0.92) / intendedH, 1);
 
   const measured = natural !== null;
-  const scaleX = measured ? targetW / natural.w : 1;
-  const scaleY = measured ? targetH / natural.h : 1;
+  const scaleX = measured ? (intendedW / natural.w) * fit : 1;
+  const scaleY = measured ? (intendedH / natural.h) * fit : 1;
 
   return (
     <div className="flex items-center justify-center rounded-lg bg-neutral-900 p-4">

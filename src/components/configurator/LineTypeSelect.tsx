@@ -2,7 +2,7 @@
 
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { LINE_TYPE_MULTIPLIER, LINE_TYPE_OPTIONS } from '@/lib/pricing/pricing.constants';
+import { LINE_TYPE_OPTIONS } from '@/lib/pricing/pricing.constants';
 import type { LineTypeCode } from '@/lib/pricing/pricing.types';
 
 const LINE_TYPE_LABEL_BY_CODE: Record<LineTypeCode, string> = Object.fromEntries(
@@ -26,7 +26,6 @@ export function LineTypeSelect({ value, onChange }: LineTypeSelectProps) {
           {LINE_TYPE_OPTIONS.map((option) => (
             <SelectItem key={option.code} value={option.code}>
               {option.labelKo}
-              {option.code !== 'single' && ` (×${LINE_TYPE_MULTIPLIER[option.code]})`}
             </SelectItem>
           ))}
         </SelectContent>

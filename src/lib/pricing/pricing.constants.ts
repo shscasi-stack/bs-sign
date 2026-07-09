@@ -5,10 +5,15 @@ export const TUBE_PRICE_PER_METER_KRW: Record<TubeThicknessCode, number> = {
   '12T': 30000,
 };
 
-/** 복선(double-line) multiplies the tube unit price relative to 단선(single-line). */
+/**
+ * Multiplies the tube length. The estimated length is the glyph OUTLINE
+ * perimeter (traces both edges of every stroke), which equals the 복선
+ * (double-line) tube run. 단선 (single-line) traces the letter centerline,
+ * roughly half of that.
+ */
 export const LINE_TYPE_MULTIPLIER: Record<LineTypeCode, number> = {
-  single: 1,
-  double: 1.5,
+  single: 0.5,
+  double: 1,
 };
 
 export interface LineTypeOption {

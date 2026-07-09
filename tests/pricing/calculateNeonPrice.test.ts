@@ -27,16 +27,16 @@ describe('calculateNeonPrice', () => {
     expect(result.baseBoardCost).toBe(60000); // 4 * 15000
     expect(result.textSizeCost).toBe(60000); // (200/100)*20000 + (100/100)*20000 = 40000 + 20000
     expect(result.tubeLengthM).toBe(2);
-    expect(result.tubeCost).toBe(50000); // 2 * 25000
+    expect(result.tubeCost).toBe(25000); // 단선: 2m * 25000 * 0.5 (centerline)
     expect(result.waterproofCost).toBe(0);
-    expect(result.total).toBe(170000); // 60000 + 60000 + 50000
+    expect(result.total).toBe(145000); // 60000 + 60000 + 25000
   });
 
   it('adds waterproofing cost per meter of tube when outdoor', () => {
     const result = calculateNeonPrice({ ...baseInput, isOutdoor: true }, TUBE_LENGTH_MM);
 
     expect(result.waterproofCost).toBe(10000); // 2m * 5000
-    expect(result.total).toBe(180000);
+    expect(result.total).toBe(155000);
   });
 
   it('uses 12T tube and 8T board rates when selected', () => {
@@ -46,17 +46,17 @@ describe('calculateNeonPrice', () => {
     );
 
     expect(result.baseBoardCost).toBe(80000); // 4 * 20000
-    expect(result.tubeCost).toBe(60000); // 2m * 30000
-    expect(result.total).toBe(200000); // 80000 + 60000 + 60000
+    expect(result.tubeCost).toBe(30000); // 단선: 2m * 30000 * 0.5
+    expect(result.total).toBe(170000); // 80000 + 60000 + 30000
   });
 
-  it('multiplies the tube cost by 1.5 when lineType is double (복선)', () => {
+  it('doubles the tube cost from 단선(centerline) to 복선(full outline)', () => {
     const single = calculateNeonPrice(baseInput, TUBE_LENGTH_MM);
     const double = calculateNeonPrice({ ...baseInput, lineType: 'double' }, TUBE_LENGTH_MM);
 
-    expect(single.tubeCost).toBe(50000); // 2m * 25000 * 1
-    expect(double.tubeCost).toBeCloseTo(75000); // 2m * 25000 * 1.5
-    expect(double.total).toBeCloseTo(single.total + 25000);
+    expect(single.tubeCost).toBe(25000); // 2m * 25000 * 0.5
+    expect(double.tubeCost).toBe(50000); // 2m * 25000 * 1.0
+    expect(double.tubeCost).toBe(single.tubeCost * 2);
   });
 
   it('prices width and height independently and sums them, not as an area', () => {
@@ -84,7 +84,7 @@ describe('calculateNeonPrice', () => {
       { code: 'ceiling_hook', quantity: 2, cost: 20000 },
       { code: 'wireless_dimmer_60w', quantity: 1, cost: 10000 },
     ]);
-    expect(result.total).toBe(170000 + 30000); // base total (no accessories) + accessoriesCost
+    expect(result.total).toBe(145000 + 30000); // base total (no accessories) + accessoriesCost
   });
 
   it('warns when tube length came from the outline estimate rather than an override', () => {
