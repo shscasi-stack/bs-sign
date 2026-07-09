@@ -7,6 +7,7 @@ import { DimensionInput } from './DimensionInput';
 import { IndoorOutdoorToggle } from './IndoorOutdoorToggle';
 import { LineTypeSelect } from './LineTypeSelect';
 import { LivePricePreview } from './LivePricePreview';
+import { NeonPreview } from './NeonPreview';
 import { SiliconeColorPicker } from './SiliconeColorPicker';
 import { TextFontInput } from './TextFontInput';
 import { TubeThicknessSelect } from './TubeThicknessSelect';
@@ -79,6 +80,11 @@ export function ConfiguratorForm() {
       </div>
 
       <div className="space-y-4">
+        <NeonPreview
+          displayText={form.displayText}
+          fontFamily={form.fontFamily}
+          siliconeColorCode={form.siliconeColorCode}
+        />
         <LivePricePreview breakdown={breakdown} isStale={isStale} />
       </div>
     </div>
