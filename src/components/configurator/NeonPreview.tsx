@@ -55,9 +55,11 @@ export function NeonPreview({
   const glowMm = Math.max(tubeMm * 0.35, 1);
   const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
 
-  // 단선(single): solid glyphs fattened by the tube stroke.
-  // 복선(double): stroke-only glyph outlines — each letter stroke reads as
-  // two parallel tube lines, matching how double-line neon is bent.
+  // Both line types are stroke-only (no fill) so the text reads as thin
+  // neon tube, not a solid colored block. The single vs double distinction
+  // comes from glyph weight: a thin glyph's two outline edges merge into one
+  // line (단선), while a bold glyph's edges stay far apart and read as two
+  // parallel tubes (복선).
   const isDouble = lineType === 'double';
 
   return (
@@ -99,8 +101,8 @@ export function NeonPreview({
             textAnchor="middle"
             dominantBaseline="central"
             fontSize={fontSizeMm}
-            fontWeight="bold"
-            fill={isDouble ? 'none' : hex}
+            fontWeight={isDouble ? 'bold' : 'normal'}
+            fill="none"
             stroke={hex}
             strokeWidth={tubeMm}
             strokeLinejoin="round"

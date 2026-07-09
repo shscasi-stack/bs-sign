@@ -34,7 +34,7 @@ describe('NeonPreview', () => {
     expect(html).toContain('viewBox="0 0 600 300"'); // board aspect ratio = real mm
     expect(html).toContain('font-size="150"'); // text height in mm
     expect(html).toContain('textLength="400"'); // text width in mm
-    expect(html).toContain('fill="#e53935"'); // selected silicone color (red)
+    expect(html).toContain('stroke="#e53935"'); // selected silicone color (red)
     expect(html).toContain('>OPEN</text>');
   });
 
@@ -50,13 +50,15 @@ describe('NeonPreview', () => {
     expect(render({ tubeThickness: '12T' })).toContain('stroke-width="12"');
   });
 
-  it('renders 단선 as filled glyphs and 복선 as stroke-only outlines', () => {
+  it('renders both line types as thin stroke-only tube, distinguished by glyph weight', () => {
     const single = render({ lineType: 'single' });
-    expect(single).toContain('fill="#e53935"');
+    expect(single).toContain('fill="none"'); // not a solid filled block
     expect(single).toContain('stroke="#e53935"');
+    expect(single).toContain('font-weight="normal"'); // thin glyph → one line
 
     const double = render({ lineType: 'double' });
     expect(double).toContain('fill="none"');
     expect(double).toContain('stroke="#e53935"');
+    expect(double).toContain('font-weight="bold"'); // fat glyph → two parallel lines
   });
 });
