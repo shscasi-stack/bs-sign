@@ -88,6 +88,8 @@ export function ConfiguratorForm() {
           boardHeightMm={form.heightMm}
           textWidthMm={form.textWidthMm}
           textHeightMm={form.textHeightMm}
+          tubeThickness={form.tubeThickness}
+          lineType={form.lineType}
         />
         <LivePricePreview breakdown={breakdown} isStale={isStale} />
       </div>
