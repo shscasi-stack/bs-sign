@@ -50,7 +50,9 @@ export function NeonPreview({
   // size ratio, and the tube stroke width are all physically accurate.
   const fontSizeMm = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
   const tubeMm = TUBE_THICKNESS_MM[tubeThickness];
-  const glowMm = Math.max(fontSizeMm * 0.08, 1);
+  // Glow tracks the tube, not the font size — big text used to produce a huge
+  // blur that smeared thick/double-line strokes into an unreadable haze.
+  const glowMm = Math.max(tubeMm * 0.35, 1);
   const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
 
   // 단선(single): solid glyphs fattened by the tube stroke.
