@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { PriceBreakdownTable } from './PriceBreakdownTable';
 import type { NeonPriceBreakdown } from '@/lib/pricing/pricing.types';
 import { cn } from '@/lib/utils';
@@ -14,6 +14,7 @@ export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) 
     <Card className={cn('sticky top-4 transition-opacity', isStale && 'opacity-70')}>
       <CardHeader>
         <CardTitle>실시간 견적</CardTitle>
+        <CardDescription>한글 6cm, 영문 4cm 이상 작업 가능</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {breakdown ? (

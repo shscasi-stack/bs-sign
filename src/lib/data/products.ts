@@ -14,7 +14,7 @@ export const PRODUCTS: Product[] = [
   {
     slug: 'led-neon-store-sign',
     category: 'led-neon',
-    name: '매장 로고 네온사인',
+    name: 'LED네온',
     description: '매장 입구나 쇼윈도에 다는 브랜드 로고형 LED 네온사인.',
     priceLabel: '가격 문의',
     ctaHref: '/configurator',
@@ -41,7 +41,7 @@ export const PRODUCTS: Product[] = [
   {
     slug: 'rubber-scasi-sign-lettering',
     category: 'rubber-scasi',
-    name: '간판 고무스카시 레터링',
+    name: '고무스카시',
     description: '간판 글자를 고무 소재로 입체 컷팅해 시인성을 높이는 레터링.',
     priceLabel: '가격 문의',
     ctaHref: '/products/rubber-scasi#contact',
@@ -68,7 +68,7 @@ export const PRODUCTS: Product[] = [
   {
     slug: 'acrylic-logo',
     category: 'acrylic',
-    name: '아크릴 로고 제작',
+    name: '아크릴 가공',
     description: '두께·컬러를 선택해 제작하는 입체 아크릴 로고.',
     priceLabel: '가격 문의',
     ctaHref: '/products/acrylic#contact',
@@ -95,7 +95,7 @@ export const PRODUCTS: Product[] = [
   {
     slug: 'formex-indoor-sign',
     category: 'formex',
-    name: '포맥스 실내 간판',
+    name: '포맥스 가공',
     description: '가볍고 시공이 쉬운 포맥스 소재의 실내 간판.',
     priceLabel: '가격 문의',
     ctaHref: '/products/formex#contact',
