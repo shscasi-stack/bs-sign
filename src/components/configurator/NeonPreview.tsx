@@ -59,7 +59,7 @@ export function NeonPreview({
     } catch {
       setNatural(null);
     }
-  }, [text, fontFamily, isDouble, hasBoard]);
+  }, [text, fontFamily, hasBoard]);
 
   if (!hasBoard) {
     return (
@@ -73,7 +73,7 @@ export function NeonPreview({
 
   // viewBox is in real mm, so board aspect ratio and tube width are accurate.
   const tubeMm = TUBE_THICKNESS_MM[tubeThickness];
-  const glowMm = Math.max(tubeMm * 0.35, 1);
+  const glowMm = Math.max(tubeMm * 0.3, 1.2);
   const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
   const cx = boardWidthMm / 2;
   const cy = boardHeightMm / 2;
@@ -102,12 +102,15 @@ export function NeonPreview({
         aria-label={`네온사인 미리보기: ${text || '문구 없음'}`}
       >
         <defs>
-          <filter id="neon-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation={glowMm} result="b1" />
-            <feGaussianBlur stdDeviation={glowMm * 3} result="b2" />
+          {/* Soft single-layer halo: a wide/stacked blur bled color into the
+              gaps of dense Hangul, making it look harsh and merged. */}
+          <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
+            <feGaussianBlur stdDeviation={glowMm} result="blur" />
+            <feComponentTransfer in="blur" result="softBlur">
+              <feFuncA type="linear" slope="0.6" />
+            </feComponentTransfer>
             <feMerge>
-              <feMergeNode in="b2" />
-              <feMergeNode in="b1" />
+              <feMergeNode in="softBlur" />
               <feMergeNode in="SourceGraphic" />
             </feMerge>
           </filter>
@@ -138,9 +141,9 @@ export function NeonPreview({
                 textAnchor="middle"
                 dominantBaseline="central"
                 fontSize={REF_FONT}
-                // 단선(single): filled solid glyph reads as one continuous tube.
-                // 복선(double): stroke-only bold outline reads as two parallel tubes.
-                fontWeight={isDouble ? 'bold' : 'normal'}
+                // 단선(single): filled solid glyph reads as one lit shape.
+                // 복선(double): hollow outline reads as two edges of the tube.
+                // Both stay normal weight — bold made dense Hangul outlines collide.
                 fill={isDouble ? 'none' : hex}
                 stroke={isDouble ? hex : 'none'}
                 strokeWidth={isDouble ? tubeMm : 0}
