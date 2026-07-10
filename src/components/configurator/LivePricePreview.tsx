@@ -14,7 +14,11 @@ export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) 
     <Card className={cn('sticky top-4 transition-opacity', isStale && 'opacity-70')}>
       <CardHeader>
         <CardTitle>실시간 견적</CardTitle>
-        <CardDescription>한글 6cm, 영문 4cm 이상 작업 가능</CardDescription>
+        <CardDescription>
+          한글 6cm, 영문 4cm 이상 작업 가능
+          <br />
+          20각 이하는 복선 작업 불가
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {breakdown ? (
