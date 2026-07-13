@@ -1,10 +1,12 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
+import { ArrowRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
 import { getProductsByCategory } from '@/lib/data/products';
+import { QUOTE_CTA } from '@/lib/data/navigation';
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -23,7 +25,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   }
 
   return {
-    title: `${category.name} | 백송LED네온`,
+    title: `${category.name} | 백송사인`,
     description: category.description,
   };
 }
@@ -37,74 +39,96 @@ export default async function CategoryPage({ params }: PageProps) {
   }
 
   const products = getProductsByCategory(category.slug);
+  const isLedNeon = category.slug === 'led-neon';
 
   return (
-    <main className="flex flex-1 flex-col">
-      <section
-        className={`bg-gradient-to-br px-4 py-16 text-white ${category.gradientClassName}`}
-      >
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-3">
-          <div className="flex size-12 items-center justify-center rounded-lg bg-white/20">
-            <category.icon className="size-6" />
-          </div>
-          <h1 className="text-3xl font-semibold">{category.name}</h1>
-          <p className="max-w-xl text-white/90">{category.description}</p>
+    <main className="flex flex-1 flex-col bg-ink text-white">
+      {/* 히어로 */}
+      <section className="border-b border-white/10">
+        <div className="mx-auto max-w-6xl px-4 py-16">
+          <FadeIn>
+            <p className="text-xs font-semibold tracking-[0.2em] text-point">
+              SIGN MANUFACTURING
+            </p>
+            <div className="mt-4 flex items-center gap-4">
+              <div
+                className={`flex size-12 items-center justify-center rounded-lg bg-gradient-to-br ${category.gradientClassName}`}
+              >
+                <category.icon className="size-6 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold">{category.name}</h1>
+            </div>
+            <p className="mt-4 max-w-xl text-white/70">{category.description}</p>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="px-4 py-12">
+      {/* 제품 그리드 */}
+      <section className="px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product) => (
-              <Card key={product.slug} className="flex h-full flex-col">
-                <div
-                  className={`h-32 bg-gradient-to-br ${category.gradientClassName}`}
-                />
-                <CardContent className="flex flex-1 flex-col gap-2">
-                  <p className="font-medium">{product.name}</p>
-                  <p className="flex-1 text-sm text-muted-foreground">
-                    {product.description}
-                  </p>
-                  <p className="text-sm font-medium text-primary">
-                    {product.priceLabel}
-                  </p>
-                  <Button
-                    nativeButton={false}
-                    render={<Link href={product.ctaHref} />}
-                    className="mt-2"
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            {products.map((product, index) => (
+              <FadeIn key={product.slug} delay={index * 0.06}>
+                <div className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-2">
+                  {/* TODO: 제품 클로즈업 이미지 교체 — /public/images/product-{slug}.jpg
+                      (측면 두께·절단면·소재 질감이 보이는 컷) */}
+                  <div
+                    className={`flex h-40 items-center justify-center bg-gradient-to-br ${category.gradientClassName}`}
                   >
-                    {product.ctaLabel}
-                  </Button>
-                </CardContent>
-              </Card>
+                    <category.icon className="size-9 text-white/90" />
+                  </div>
+                  <div className="flex flex-1 flex-col gap-3 p-5">
+                    <h2 className="font-heading text-lg font-semibold">{product.name}</h2>
+                    <p className="flex-1 text-sm leading-relaxed text-white/60">
+                      {product.description}
+                    </p>
+                    <dl className="grid grid-cols-2 gap-2 border-t border-white/10 pt-3 text-xs">
+                      <div>
+                        <dt className="text-white/40">소재</dt>
+                        <dd className="mt-0.5 text-white/80">{product.material}</dd>
+                      </div>
+                      <div>
+                        <dt className="text-white/40">가공 방식</dt>
+                        <dd className="mt-0.5 text-white/80">{product.method}</dd>
+                      </div>
+                    </dl>
+                  </div>
+                </div>
+              </FadeIn>
             ))}
           </div>
         </div>
       </section>
 
-      <section id="contact" className="border-t bg-muted/30 px-4 py-16">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 text-center">
-          <h2 className="text-xl font-semibold">
-            {category.name} 제작이 궁금하신가요?
-          </h2>
-          <p className="text-muted-foreground">
-            사이즈, 수량, 원하는 디자인을 알려주시면 담당자가 빠르게 견적을 안내해
-            드립니다.
+      {/* 카테고리별 CTA */}
+      <section id="contact" className="border-t border-white/10 bg-ink-2">
+        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-16 text-center">
+          <h2 className="text-xl font-bold sm:text-2xl">{category.name} 제작을 문의하세요</h2>
+          <p className="text-white/70">
+            도면과 시안, 규격을 보내주시면 제작 가능 여부와 견적, 납기를 빠르게 안내해 드립니다.
           </p>
-          {category.slug === 'led-neon' ? (
+          <div className="mt-2 flex flex-wrap justify-center gap-3">
+            {isLedNeon && (
+              <Button
+                size="lg"
+                variant="outline"
+                nativeButton={false}
+                render={<Link href="/configurator" />}
+                className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white"
+              >
+                실시간 견적 계산기
+              </Button>
+            )}
             <Button
               size="lg"
               nativeButton={false}
-              render={<Link href="/configurator" />}
+              render={<Link href={QUOTE_CTA.href} />}
+              className="font-semibold"
             >
-              맞춤 견적 시작하기
+              {QUOTE_CTA.label}
+              <ArrowRightIcon />
             </Button>
-          ) : (
-            <p className="text-sm text-muted-foreground">
-              전화 및 이메일 문의처는 준비 중입니다. 우선 LED네온 견적 도구로
-              대략적인 제작 규모를 가늠해 보셔도 좋아요.
-            </p>
-          )}
+          </div>
         </div>
       </section>
     </main>

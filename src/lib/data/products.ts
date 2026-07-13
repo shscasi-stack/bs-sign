@@ -5,119 +5,115 @@ export interface Product {
   category: CategorySlug;
   name: string;
   description: string;
-  priceLabel: string;
-  ctaHref: string;
-  ctaLabel: string;
+  /** 대표 소재 (예: '투명 아크릴'). */
+  material: string;
+  /** 대표 가공 방식 (예: 'CNC 가공'). */
+  method: string;
 }
 
 export const PRODUCTS: Product[] = [
-  {
-    slug: 'led-neon-store-sign',
-    category: 'led-neon',
-    name: 'LED네온',
-    description: '매장 입구나 쇼윈도에 다는 브랜드 로고형 LED 네온사인.',
-    priceLabel: '가격 문의',
-    ctaHref: '/configurator',
-    ctaLabel: '맞춤 견적 시작하기',
-  },
-  {
-    slug: 'led-neon-wedding-event',
-    category: 'led-neon',
-    name: '웨딩·이벤트 네온사인',
-    description: '청첩장 포토존, 돌잔치, 팝업스토어용 문구 네온사인.',
-    priceLabel: '가격 문의',
-    ctaHref: '/configurator',
-    ctaLabel: '맞춤 견적 시작하기',
-  },
-  {
-    slug: 'led-neon-interior',
-    category: 'led-neon',
-    name: '인테리어 소품 네온사인',
-    description: '카페·홈 인테리어용 소형 문구·아이콘 네온사인.',
-    priceLabel: '가격 문의',
-    ctaHref: '/configurator',
-    ctaLabel: '맞춤 견적 시작하기',
-  },
+  // 고무스카시
   {
     slug: 'rubber-scasi-sign-lettering',
     category: 'rubber-scasi',
-    name: '고무스카시',
+    name: '간판 고무스카시 레터링',
     description: '간판 글자를 고무 소재로 입체 컷팅해 시인성을 높이는 레터링.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/rubber-scasi#contact',
-    ctaLabel: '상담 문의하기',
+    material: '고무',
+    method: '정밀 컷팅',
   },
   {
     slug: 'rubber-scasi-logo-cutting',
     category: 'rubber-scasi',
     name: '로고 스카시 컷팅',
     description: '브랜드 로고 형태를 정밀하게 오려내는 고무 스카시 가공.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/rubber-scasi#contact',
-    ctaLabel: '상담 문의하기',
+    material: '고무',
+    method: '로고 컷팅',
   },
   {
     slug: 'rubber-scasi-accent',
     category: 'rubber-scasi',
     name: '사인물 포인트 소재',
     description: '기존 사인물에 부착해 입체감을 더하는 고무스카시 포인트 소재.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/rubber-scasi#contact',
-    ctaLabel: '상담 문의하기',
+    material: '고무',
+    method: '입체 가공',
   },
+
+  // 아크릴 가공
   {
     slug: 'acrylic-logo',
     category: 'acrylic',
-    name: '아크릴 가공',
+    name: '아크릴 로고',
     description: '두께·컬러를 선택해 제작하는 입체 아크릴 로고.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/acrylic#contact',
-    ctaLabel: '상담 문의하기',
+    material: '투명·유색 아크릴',
+    method: '레이저 가공',
   },
   {
     slug: 'acrylic-stand',
     category: 'acrylic',
     name: '아크릴 스탠드·거치대',
     description: '매장 안내, 메뉴판 등에 쓰이는 아크릴 스탠드 및 거치대.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/acrylic#contact',
-    ctaLabel: '상담 문의하기',
+    material: '투명 아크릴',
+    method: '재단·절곡',
   },
   {
     slug: 'acrylic-sign-box',
     category: 'acrylic',
     name: '아크릴 간판 함체',
     description: 'LED 모듈과 결합하는 아크릴 간판 함체 제작.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/acrylic#contact',
-    ctaLabel: '상담 문의하기',
+    material: '유색 아크릴',
+    method: '재단·조립',
+  },
+
+  // 포맥스 가공
+  {
+    slug: 'formex-dombo',
+    category: 'formex',
+    name: '포맥스 돔보',
+    description: '입체감을 살린 포맥스 돔보 문자·로고 가공.',
+    material: '포맥스',
+    method: 'CNC 가공',
   },
   {
     slug: 'formex-indoor-sign',
     category: 'formex',
-    name: '포맥스 가공',
-    description: '가볍고 시공이 쉬운 포맥스 소재의 실내 간판.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/formex#contact',
-    ctaLabel: '상담 문의하기',
+    name: '포맥스 문자·간판',
+    description: '가볍고 다루기 쉬운 포맥스 소재로 제작한 문자·간판.',
+    material: '포맥스',
+    method: 'CNC 가공',
   },
   {
     slug: 'formex-banner-board',
     category: 'formex',
-    name: '포맥스 배너·게시판',
-    description: '방수에 강해 실외에도 사용 가능한 포맥스 배너 게시판.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/formex#contact',
-    ctaLabel: '상담 문의하기',
+    name: '포맥스 게시판',
+    description: '방수에 강한 포맥스 소재로 제작하는 게시판·안내판.',
+    material: '포맥스',
+    method: '재단 가공',
+  },
+
+  // LED 네온
+  {
+    slug: 'led-neon-logo',
+    category: 'led-neon',
+    name: '로고 LED 네온',
+    description: '브랜드 로고를 다양한 색상의 LED 네온으로 제작.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
   },
   {
-    slug: 'formex-event-guide',
-    category: 'formex',
-    name: '행사장 안내판',
-    description: '설치·철거가 간편한 행사·전시용 포맥스 안내판.',
-    priceLabel: '가격 문의',
-    ctaHref: '/products/formex#contact',
-    ctaLabel: '상담 문의하기',
+    slug: 'led-neon-lettering',
+    category: 'led-neon',
+    name: '문구 LED 네온',
+    description: '원하는 문구를 다양한 색상의 LED 네온으로 제작.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+  },
+  {
+    slug: 'led-neon-custom',
+    category: 'led-neon',
+    name: '맞춤 LED 네온',
+    description: '사이즈·색상·단선/복선까지 온라인 견적으로 바로 확인.',
+    material: 'LED 실리콘 네온',
+    method: '맞춤 제작',
   },
 ];
 
