@@ -1,8 +1,8 @@
-import { HardDriveIcon, MailIcon, PhoneIcon } from 'lucide-react';
+import Link from 'next/link';
+import { ArrowRightIcon, HardDriveIcon, MailIcon, PhoneIcon } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
 
-// 1단계에서는 연락 수단 안내 중심. 도면·시안 첨부 온라인 견적 폼(입력검증 + 파일 드래그앤드롭)은
-// 2단계에서 QuoteForm 컴포넌트로 추가한다.
 const CONTACTS = [
   { icon: PhoneIcon, label: '전화 문의', value: '010-9804-8285', href: 'tel:010-9804-8285' },
   { icon: MailIcon, label: '이메일 시안 전달', value: 'moon9291@naver.com', href: 'mailto:moon9291@naver.com' },
@@ -21,9 +21,19 @@ export function QuoteSection() {
         <FadeIn>
           <h2 className="text-2xl font-bold sm:text-3xl">도면·시안 보내고 견적받기</h2>
           <p className="mt-3 max-w-2xl text-white/80">
-            아래 정보를 보내주시면 제작 가능 여부, 예상 견적, 납기를 확인해드립니다.
+            도면과 시안을 보내주시면 제작 가능 여부, 예상 견적, 납기를 확인해드립니다.
             지원 파일: AI, PDF, JPG, PNG, CAD, DXF
           </p>
+          <Button
+            size="lg"
+            variant="secondary"
+            nativeButton={false}
+            render={<Link href="/quote" />}
+            className="mt-6 font-semibold"
+          >
+            온라인 견적 폼 작성하기
+            <ArrowRightIcon />
+          </Button>
         </FadeIn>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-3">
@@ -46,8 +56,7 @@ export function QuoteSection() {
         </div>
 
         <p className="mt-8 text-sm text-white/70">
-          온라인 견적 폼(도면·시안 첨부)은 준비 중입니다. 우선 위 연락 수단으로 시안과 규격을
-          보내주시면 빠르게 안내드리겠습니다.
+          전화·이메일·웹하드로 시안과 규격을 보내주셔도 동일하게 안내드립니다.
         </p>
       </div>
     </section>
