@@ -11,42 +11,39 @@ export interface Category {
   gradientClassName: string;
 }
 
+// B2B 제작·가공 파트너 포지셔닝. 순서는 지시서 Section 2(고무스카시→아크릴→포맥스→LED네온)를 따른다.
 export const CATEGORIES: Category[] = [
-  {
-    slug: 'led-neon',
-    name: 'LED네온',
-    tagline: '나만의 문구로 만드는 감성 조명',
-    description:
-      '매장 간판부터 웨딩·이벤트 소품까지, 원하는 문구와 색상으로 실시간 견적을 받아 제작하는 LED 네온사인입니다.',
-    icon: LightbulbIcon,
-    gradientClassName: 'from-fuchsia-500 to-rose-500',
-  },
   {
     slug: 'rubber-scasi',
     name: '고무스카시',
-    tagline: '입체감 있는 고무 컷팅 레터링',
-    description:
-      '간판 글자, 로고 등을 고무 소재로 정밀 컷팅해 실내외 사인물에 포인트를 더하는 고무스카시 가공입니다.',
+    tagline: '정밀 컷팅 입체 문자',
+    description: '다양한 두께와 색상으로 정밀하게 제작하는 입체 문자입니다.',
     icon: ScissorsIcon,
     gradientClassName: 'from-amber-500 to-orange-600',
   },
   {
     slug: 'acrylic',
-    name: '아크릴가공',
-    tagline: '깔끔하고 고급스러운 아크릴 제작',
-    description:
-      '아크릴 로고, 스탠드, 간판 함체 등 다양한 두께와 컬러로 재단·가공하는 아크릴 전문 제작 서비스입니다.',
+    name: '아크릴 가공',
+    tagline: '시안 맞춤 아크릴 정밀 가공',
+    description: '투명, 유색, 미러 아크릴을 시안에 맞춰 정밀 가공합니다.',
     icon: GemIcon,
     gradientClassName: 'from-sky-500 to-indigo-600',
   },
   {
     slug: 'formex',
-    name: '포맥스',
-    tagline: '가볍고 튼튼한 실내외 사인 소재',
-    description:
-      '가볍고 방수에 강한 포맥스 보드로 제작하는 실내 간판, 안내판, 행사용 사인물입니다.',
+    name: '포맥스 가공',
+    tagline: '돔보·문자·로고 포맥스 가공',
+    description: '돔보, 문자, 로고 등 다양한 형태의 포맥스 가공을 진행합니다.',
     icon: PanelTopIcon,
     gradientClassName: 'from-emerald-500 to-teal-600',
+  },
+  {
+    slug: 'led-neon',
+    name: 'LED 네온',
+    tagline: '로고·문구 LED 네온 제작',
+    description: '로고와 문구를 다양한 색상의 LED 네온으로 제작합니다.',
+    icon: LightbulbIcon,
+    gradientClassName: 'from-fuchsia-500 to-rose-500',
   },
 ];
 

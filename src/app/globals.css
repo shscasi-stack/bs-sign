@@ -7,6 +7,13 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  /* 백송사인 B2B 산업형 팔레트 (지시서 3항) — bg-ink, text-point 등으로 사용 */
+  --color-ink: #070b12;
+  --color-ink-2: #101722;
+  --color-ink-light: #f6f7f9;
+  --color-ink-muted: #9ca3af;
+  --color-point: #145bff;
+  --color-neon: #6c63ff;
   --font-sans: var(--font-sans);
   --font-mono: var(--font-geist-mono);
   --font-heading: var(--font-sans);
@@ -55,8 +62,8 @@
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
+  --primary: #145bff;
+  --primary-foreground: #ffffff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
   --muted: oklch(0.97 0 0);

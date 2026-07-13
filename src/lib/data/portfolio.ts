@@ -50,7 +50,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     slug: 'formex-indoor-sign-case',
     category: 'formex',
     title: '포맥스 실내 간판',
-    description: '가볍고 시공이 간편한 포맥스 소재의 실내 간판.',
+    description: '가볍고 다루기 쉬운 포맥스 소재로 제작한 실내 간판.',
   },
   {
     slug: 'formex-event-guide-case',
