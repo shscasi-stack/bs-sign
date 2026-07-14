@@ -20,7 +20,7 @@ import {
   quoteSchema,
   type QuoteFormValues,
 } from '@/lib/validation/quoteSchema';
-import { submitQuoteRequest } from '@/lib/quote/submitQuoteRequest';
+import { QUOTE_RECIPIENT_EMAIL, submitQuoteRequest } from '@/lib/quote/submitQuoteRequest';
 
 type FormState = Record<keyof QuoteFormValues, string>;
 
@@ -98,9 +98,12 @@ export function QuoteForm() {
     return (
       <div className="flex flex-col items-center gap-4 rounded-xl border border-neutral-200 bg-white p-10 text-center">
         <CheckCircle2Icon className="size-12 text-point" />
-        <h3 className="text-lg font-semibold text-neutral-900">견적 요청이 접수되었습니다</h3>
+        <h3 className="text-lg font-semibold text-neutral-900">메일 작성 창이 열렸습니다</h3>
         <p className="text-sm text-neutral-600">
-          전달해주신 내용을 확인한 뒤 안내드리겠습니다.
+          입력하신 내용이 담긴 메일을 <span className="font-medium">{QUOTE_RECIPIENT_EMAIL}</span> 로
+          전송해 주시면 견적 요청이 접수됩니다. 도면·시안 파일은 메일에 첨부해 보내주세요.
+          <br />
+          메일 앱이 열리지 않으면 위 주소로 직접 보내주셔도 됩니다.
         </p>
         <Button
           variant="outline"

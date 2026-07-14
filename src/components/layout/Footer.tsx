@@ -52,8 +52,7 @@ export function Footer() {
               <MapPinIcon className="size-3.5" />
               <span>부천로167번길 11</span>
             </li>
-            {/* TODO: 사업자등록번호 실제 값 입력 필요 */}
-            <li className="text-white/50">사업자등록번호 000-00-00000</li>
+            <li className="text-white/50">사업자등록번호 130-39-69877</li>
           </ul>
         </div>
       </div>
