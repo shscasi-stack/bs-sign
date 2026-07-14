@@ -1,7 +1,13 @@
 import type { QuoteFormValues } from '@/lib/validation/quoteSchema';
 
-/** 견적 접수 수신 이메일. */
+/** 견적 접수 수신 이메일 (안내용). */
 export const QUOTE_RECIPIENT_EMAIL = 'moon9291@naver.com';
+
+/**
+ * Formspree 폼 엔드포인트 (moon9291@naver.com 수신).
+ * 폼을 새로 만들면 이 주소만 교체하면 된다.
+ */
+export const FORM_ENDPOINT = 'https://formspree.io/f/xgogegbw';
 
 const FIELD_LABELS: Record<keyof QuoteFormValues, string> = {
   companyName: '업체명',
@@ -20,32 +26,40 @@ const FIELD_LABELS: Record<keyof QuoteFormValues, string> = {
   message: '요청사항',
 };
 
-function buildEmailBody(values: QuoteFormValues, files: File[]): string {
-  const lines = (Object.keys(FIELD_LABELS) as (keyof QuoteFormValues)[])
-    .filter((key) => values[key])
-    .map((key) => `${FIELD_LABELS[key]}: ${values[key]}`);
-
-  if (files.length > 0) {
-    lines.push('', `첨부 파일: ${files.map((f) => f.name).join(', ')}`);
-    lines.push('(※ 첨부 파일은 이 메일에 직접 담아 보내주세요.)');
+/**
+ * 견적 요청을 Formspree로 전송(메일 앱을 열지 않고 서버가 moon9291@naver.com으로 메일 발송).
+ * 텍스트 항목 + 첨부 파일(FormData)을 함께 보낸다. 무료 플랜은 파일 첨부가 없으므로
+ * 파일명을 별도 항목으로도 담아 메일 본문에 남는다.
+ *
+ * @returns 전송 성공 여부
+ */
+export async function submitQuoteRequest(
+  values: QuoteFormValues,
+  files: File[]
+): Promise<{ ok: boolean }> {
+  if (!FORM_ENDPOINT) {
+    return { ok: false };
   }
 
-  return lines.join('\n');
-}
+  const formData = new FormData();
+  // 한글 라벨로 담아 메일에서 읽기 쉽게
+  (Object.keys(FIELD_LABELS) as (keyof QuoteFormValues)[]).forEach((key) => {
+    if (values[key]) formData.append(FIELD_LABELS[key], String(values[key]));
+  });
+  formData.append('_subject', `[견적문의] ${values.productType} - ${values.companyName}`);
+  if (files.length > 0) {
+    formData.append('첨부파일명', files.map((f) => f.name).join(', '));
+    files.forEach((file) => formData.append('attachment', file));
+  }
 
-/**
- * 견적 요청 제출. mailto로 고객의 메일 앱을 열어 수신자·제목·본문을 채운다.
- * (정적 배포 환경이라 서버 발송이 없어 mailto 방식 사용 — 파일 첨부는 메일 앱에서 직접.)
- *
- * TODO: 서버 발송(API + Resend/SMTP)이 준비되면 이 함수 안을
- *   fetch('/api/quote', { method: 'POST', body: FormData })로 교체한다.
- */
-export function submitQuoteRequest(values: QuoteFormValues, files: File[]): void {
-  const subject = `[견적문의] ${values.productType} - ${values.companyName}`;
-  const body = buildEmailBody(values, files);
-  const mailto = `mailto:${QUOTE_RECIPIENT_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-
-  if (typeof window !== 'undefined') {
-    window.location.href = mailto;
+  try {
+    const res = await fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { Accept: 'application/json' },
+      body: formData,
+    });
+    return { ok: res.ok };
+  } catch {
+    return { ok: false };
   }
 }

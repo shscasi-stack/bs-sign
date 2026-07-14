@@ -62,6 +62,8 @@ export function QuoteForm() {
   const [files, setFiles] = useState<File[]>([]);
   const [dragging, setDragging] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   function set<K extends keyof FormState>(key: K, value: string) {
@@ -77,7 +79,7 @@ export function QuoteForm() {
     setFiles((prev) => prev.filter((_, i) => i !== index));
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const result = quoteSchema.safeParse(values);
     if (!result.success) {
@@ -89,21 +91,24 @@ export function QuoteForm() {
       return;
     }
     setErrors({});
-    // 백엔드/이메일 연동은 submitQuoteRequest 안에서 교체 (현재는 콘솔 출력).
-    submitQuoteRequest(result.data, files);
-    setSubmitted(true);
+    setSubmitError(false);
+    setSubmitting(true);
+    const { ok } = await submitQuoteRequest(result.data, files);
+    setSubmitting(false);
+    if (ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(true);
+    }
   }
 
   if (submitted) {
     return (
       <div className="flex flex-col items-center gap-4 rounded-xl border border-neutral-200 bg-white p-10 text-center">
         <CheckCircle2Icon className="size-12 text-point" />
-        <h3 className="text-lg font-semibold text-neutral-900">메일 작성 창이 열렸습니다</h3>
+        <h3 className="text-lg font-semibold text-neutral-900">견적 요청이 접수되었습니다</h3>
         <p className="text-sm text-neutral-600">
-          입력하신 내용이 담긴 메일을 <span className="font-medium">{QUOTE_RECIPIENT_EMAIL}</span> 로
-          전송해 주시면 견적 요청이 접수됩니다. 도면·시안 파일은 메일에 첨부해 보내주세요.
-          <br />
-          메일 앱이 열리지 않으면 위 주소로 직접 보내주셔도 됩니다.
+          전달해주신 내용을 확인한 뒤 안내드리겠습니다.
         </p>
         <Button
           variant="outline"
@@ -240,9 +245,14 @@ export function QuoteForm() {
         </div>
       </div>
 
-      <Button type="submit" size="lg" className="mt-6 w-full font-semibold">
-        제작 가능 여부와 견적 확인하기
+      <Button type="submit" size="lg" disabled={submitting} className="mt-6 w-full font-semibold">
+        {submitting ? '전송 중...' : '제작 가능 여부와 견적 확인하기'}
       </Button>
+      {submitError && (
+        <p className="mt-3 text-center text-sm text-destructive">
+          전송에 실패했습니다. 잠시 후 다시 시도하시거나 {QUOTE_RECIPIENT_EMAIL} 으로 직접 보내주세요.
+        </p>
+      )}
     </form>
   );
 }
