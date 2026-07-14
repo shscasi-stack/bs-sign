@@ -180,6 +180,18 @@ export function QuoteForm() {
         {/* 파일 첨부 (드래그앤드롭) */}
         <div className="space-y-1.5 sm:col-span-2">
           <Label>파일 첨부 (도면·시안)</Label>
+          <p className="text-xs leading-relaxed text-neutral-500">
+            파일명은 견적 요청과 함께 접수됩니다. 도면·시안 <strong>원본 파일</strong>은{' '}
+            <a
+              href="https://only.webhard.co.kr/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-point underline underline-offset-2"
+            >
+              웹하드
+            </a>
+            로 업로드해 주세요. (계정 정보는 페이지 하단 참고)
+          </p>
           <div
             role="button"
             tabIndex={0}
