@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next';
 import { CATEGORIES } from '@/lib/data/categories';
+import { PORTFOLIO_ITEMS } from '@/lib/data/portfolio';
 
 const BASE_URL = 'https://www.bs-sign.com';
 
@@ -17,5 +18,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...categoryRoutes];
+  // 작업사례 상세 — 검색 유입을 담당하는 콘텐츠 페이지
+  const caseRoutes: MetadataRoute.Sitemap = PORTFOLIO_ITEMS.filter((item) => item.caseStudy).map(
+    (item) => ({
+      url: `${BASE_URL}/portfolio/${item.slug}`,
+      changeFrequency: 'monthly',
+      priority: 0.7,
+    })
+  );
+
+  return [...staticRoutes, ...categoryRoutes, ...caseRoutes];
 }

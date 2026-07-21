@@ -1,5 +1,25 @@
 import type { CategorySlug } from './categories';
 
+/**
+ * 작업사례 상세 구성 (마이너레이저·출력하라 벤치마킹).
+ * "제작했습니다"로 끝내지 않고 요청 → 소재·가공 → 주의점 → 결과 → 주문 안내
+ * 순서로 서술해 게시물 하나가 검색 유입과 견적 전환을 담당한다.
+ */
+export interface CaseStudy {
+  /** 제작 요청 내용 — 어떤 고객이 어떤 상황에서 주문했는지. */
+  request: string;
+  /** 사용한 소재 설명. */
+  materialDetail: string;
+  /** 가공방식 설명 — 어떻게 만들었는지. */
+  methodDetail: string;
+  /** 제작 시 주의점 — 견적·품질에 영향을 주는 조건. */
+  cautions: string[];
+  /** 완성 결과. */
+  result: string;
+  /** 같은 제작을 주문할 때 필요한 정보 체크리스트. */
+  orderInfo: string[];
+}
+
 export interface PortfolioItem {
   slug: string;
   category: CategorySlug;
@@ -15,8 +35,12 @@ export interface PortfolioItem {
   size?: string;
   /** Set this to a path under /public (e.g. "/portfolio/led-neon-1.jpg") once a real photo is ready. */
   imageUrl?: string;
+  /** 상세페이지 본문. 없으면 목록 카드만 노출되고 상세 링크가 생기지 않는다. */
+  caseStudy?: CaseStudy;
 }
 
+// TODO: 각 caseStudy를 실제 작업 사례(고객 상황·규격·사진)로 교체.
+// 현재 본문은 제작 과정을 사실대로 설명하는 기본 구조이며, 미확인 수치는 넣지 않았다.
 export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     slug: 'led-neon-store-sign-case',
@@ -25,6 +49,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '카페 브랜드 로고형 LED 네온사인 제작.',
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
+    caseStudy: {
+      request:
+        '카페 매장 벽면에 부착할 브랜드 로고 네온사인 제작 요청입니다. 로고 AI 파일을 받아 네온 제작이 가능한 형태인지 검토한 뒤 진행했습니다.',
+      materialDetail:
+        '투명 아크릴 배면에 LED 스트립과 실리콘 튜브를 결합하는 LED 네온 방식입니다. 유리 네온과 달리 발열이 적고 파손 위험이 낮아 실내 매장에 적합합니다.',
+      methodDetail:
+        '로고 외곽선을 따라 실리콘 튜브의 경로를 설계하고, 아크릴 배면을 로고 형태에 맞춰 가공한 뒤 LED를 조립했습니다. 선이 겹치거나 지나치게 좁은 구간은 시안 단계에서 조정합니다.',
+      cautions: [
+        '획이 가늘거나 간격이 좁은 로고는 튜브가 꺾이지 못해 시안 수정이 필요할 수 있습니다.',
+        '글자·로고 크기가 작을수록 표현 가능한 획의 굵기에 제한이 있습니다.',
+        '설치 환경(실내/옥외)에 따라 방수 사양과 견적이 달라집니다.',
+      ],
+      result:
+        '로고 형태를 그대로 살린 네온사인으로 완성해 검수 후 포장·출고했습니다. 부착과 배선은 주문 업체 측에서 진행하는 조건으로 납품했습니다.',
+      orderInfo: [
+        '로고 AI(벡터) 파일 또는 고해상도 이미지',
+        '희망 크기(가로 기준)와 설치 위치(실내/옥외)',
+        '희망 색상(단색/다색)',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'led-neon-lettering-case',
@@ -33,6 +78,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '포토존용 문구 LED 네온사인 제작.',
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
+    caseStudy: {
+      request:
+        '매장 포토존에 설치할 문구형 LED 네온 제작 요청입니다. 원하는 문구와 서체 방향을 전달받아 네온에 맞는 형태로 시안을 잡았습니다.',
+      materialDetail:
+        '아크릴 배면 위에 실리콘 LED 네온 튜브를 결합하는 방식으로, 점등 시 글씨가 부드럽게 빛나는 것이 특징입니다.',
+      methodDetail:
+        '문구를 네온 튜브가 지나갈 수 있는 획으로 다듬은 뒤, 글자 경로를 따라 벤딩·조립했습니다. 필기체처럼 이어지는 서체는 튜브 경로를 살리기 좋아 네온 문구에 자주 쓰입니다.',
+      cautions: [
+        '서체에 따라 표현 가능한 형태가 달라져 시안 협의가 필요합니다.',
+        '같은 문구라도 크기·줄 수에 따라 견적이 달라집니다.',
+        '점등 색상은 실물과 화면이 다를 수 있어 확정 전에 안내드립니다.',
+      ],
+      result:
+        '문구의 흐름을 살린 네온으로 제작해 점등 검수 후 출고했습니다. 벽걸이 방식으로 걸 수 있게 타공 위치를 맞춰 마감했습니다.',
+      orderInfo: [
+        '원하는 문구와 서체(또는 시안 파일)',
+        '희망 크기와 설치 방식(벽걸이/거치 등)',
+        '희망 색상',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'rubber-scasi-sign-case',
@@ -41,6 +107,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '입간판 글자를 고무 소재로 입체 컷팅한 사례.',
     material: '고무',
     method: '정밀 컷팅',
+    caseStudy: {
+      request:
+        '간판업체에서 입간판에 부착할 고무스카시 레터링을 발주한 사례입니다. 글자 시안과 규격을 받아 컷팅 가능 여부를 확인한 뒤 제작했습니다.',
+      materialDetail:
+        '고무스카시는 고무 소재를 글자·로고 형태로 오려내는 입체 문자로, 두께감이 있어 평면 시트보다 존재감이 있고 도색으로 다양한 색을 낼 수 있습니다.',
+      methodDetail:
+        '시안의 글자 외곽선을 따라 정밀 컷팅한 뒤 도색·건조를 거쳐 마감했습니다. 획이 가는 글자는 컷팅 시 파손 위험이 있어 시안 단계에서 두께를 검토합니다.',
+      cautions: [
+        '획이 지나치게 가는 서체는 제작이 어려워 시안 조정이 필요할 수 있습니다.',
+        '글자 수·크기·두께에 따라 견적이 달라집니다.',
+        '부착용 양면테이프/실리콘 마감 여부는 주문 시 협의합니다.',
+      ],
+      result:
+        '동일한 두께와 색으로 균일하게 컷팅된 레터링을 납품했습니다. 현장 부착은 주문 업체에서 진행했습니다.',
+      orderInfo: [
+        '글자 시안 AI 파일(서체 윤곽선 처리)',
+        '글자 높이 기준 크기와 수량',
+        '희망 두께와 색상',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'rubber-scasi-logo-case',
@@ -49,6 +136,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '브랜드 로고를 정밀하게 오려낸 고무 스카시 가공.',
     material: '고무',
     method: '로고 컷팅',
+    caseStudy: {
+      request:
+        '브랜드 로고를 입체로 표현하고 싶다는 광고사 요청으로, 로고 형태 그대로 고무 스카시 컷팅을 진행한 사례입니다.',
+      materialDetail:
+        '고무 소재는 곡선이 많은 로고 형태도 외곽선을 따라 깔끔하게 오려낼 수 있고, 도색 마감으로 브랜드 색상을 맞출 수 있습니다.',
+      methodDetail:
+        '로고 외곽선을 컷팅 경로로 변환해 정밀 컷팅했습니다. 안쪽이 뚫린 형태(음각 영역)는 탈락하지 않도록 시안 단계에서 연결 여부를 확인합니다.',
+      cautions: [
+        '로고 안쪽에 분리된 조각이 있으면 부착 시 배치 기준이 필요합니다(부착 가이드 제공 협의).',
+        '크기가 작아질수록 세부 형태 표현에 한계가 있습니다.',
+        '색상은 도색 기준으로 맞추며, 특수 색은 사전 협의가 필요합니다.',
+      ],
+      result:
+        '로고 곡선을 그대로 살린 스카시로 완성해 파손 없이 포장·출고했습니다.',
+      orderInfo: [
+        '로고 AI(벡터) 파일',
+        '희망 크기와 수량',
+        '희망 두께와 색상(브랜드 컬러 기준)',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'acrylic-logo-case',
@@ -57,6 +165,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '두께와 컬러를 조합해 제작한 입체 아크릴 로고.',
     material: '투명·유색 아크릴',
     method: '레이저 가공',
+    caseStudy: {
+      request:
+        '사무실 입구 벽면에 부착할 아크릴 로고 제작 요청입니다. 로고 파일을 받아 아크릴 두께·색 조합을 제안한 뒤 제작했습니다.',
+      materialDetail:
+        '투명·유색 아크릴은 표면이 매끄럽고 색이 선명해 로고·사인 제작에 가장 많이 쓰이는 소재입니다. 두께를 조합하면 입체감을 줄 수 있습니다.',
+      methodDetail:
+        '로고 외곽선을 따라 레이저 커팅으로 가공했습니다. 레이저 절단면은 매끄럽게 마감되어 별도 후가공 없이 부착할 수 있습니다. 아크릴 후처리(연마 등 추가 가공)는 진행하지 않습니다.',
+      cautions: [
+        '아크릴 후처리는 제공하지 않으므로 필요 시 사전에 알려주세요.',
+        '두께·색상 조합에 따라 견적이 달라집니다.',
+        '작은 글자·가는 획은 파손 위험이 있어 시안 검토가 필요합니다.',
+      ],
+      result:
+        '절단면이 깔끔한 아크릴 로고로 완성해 보호 필름 상태로 포장·출고했습니다.',
+      orderInfo: [
+        '로고 AI(벡터) 파일',
+        '희망 크기·두께·색상',
+        '부착 방식(양면테이프/타공 등) 희망 여부',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'acrylic-stand-case',
@@ -65,6 +194,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '매장 안내용으로 제작한 아크릴 스탠드.',
     material: '투명 아크릴',
     method: '재단·절곡',
+    caseStudy: {
+      request:
+        '매장 카운터에 놓을 안내용 아크릴 스탠드를 소량 제작한 사례입니다. 용도와 넣을 인쇄물 크기를 기준으로 규격을 잡았습니다.',
+      materialDetail:
+        '투명 아크릴은 내용물이 잘 보이고 형태 유지가 좋아 안내 스탠드·거치대 제작에 적합합니다.',
+      methodDetail:
+        '판재를 규격대로 재단한 뒤 열을 가해 원하는 각도로 절곡했습니다. 같은 규격을 반복 제작할 수 있어 여러 매장에 동일하게 배포할 때 유리합니다.',
+      cautions: [
+        '거치할 인쇄물 규격(예: A4 등)을 기준으로 제작 규격을 정합니다.',
+        '수량에 따라 단가가 달라집니다.',
+        '모서리 마감 방식은 주문 시 협의합니다.',
+      ],
+      result:
+        '동일 규격의 스탠드를 수량대로 제작해 스크래치 방지 포장 후 출고했습니다.',
+      orderInfo: [
+        '용도와 거치할 내용물 규격',
+        '희망 크기·두께·수량',
+        '절곡 형태(기울기) 참고 이미지',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'formex-dombo-case',
@@ -73,6 +223,27 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '입체감을 살린 포맥스 돔보 문자 가공.',
     material: '포맥스',
     method: 'CNC 가공',
+    caseStudy: {
+      request:
+        '실사출력업체에서 실사 부착 후 외곽선 가공까지 맡긴 포맥스 돔보 사례입니다. 인쇄물과 도면을 받아 가공만 진행했습니다.',
+      materialDetail:
+        '포맥스는 가볍고 컷팅이 잘되는 발포 PVC 판재로, 실사를 부착해 입체 문자·조형을 만드는 돔보 가공에 널리 쓰입니다.',
+      methodDetail:
+        '포맥스에 실사를 부착한 뒤 인쇄된 외곽선을 따라 CNC로 돔보 가공했습니다. 손으로 재단하기 어려운 반복 형태도 동일한 크기로 정밀하게 제작할 수 있습니다.',
+      cautions: [
+        '인쇄 외곽선과 컷팅 경로가 일치하도록 도면(컷라인) 파일이 필요합니다.',
+        '수량이 많을수록 CNC 가공의 장점(동일 품질 반복)이 커집니다.',
+        '두께 선택에 따라 입체감과 견적이 달라집니다.',
+      ],
+      result:
+        '인쇄 모양 그대로 균일하게 가공된 돔보를 납품했습니다. 간판업체·실사출력업체·인테리어업체가 반복 발주하는 대표 품목입니다.',
+      orderInfo: [
+        '실사 인쇄 데이터와 컷라인(외곽선) 파일',
+        '희망 두께와 수량',
+        '실사 부착 포함 여부(부착 상태 입고/원단 입고)',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
   {
     slug: 'formex-indoor-sign-case',
@@ -81,9 +252,34 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '가볍고 다루기 쉬운 포맥스 소재로 제작한 실내 간판.',
     material: '포맥스',
     method: 'CNC 가공',
+    caseStudy: {
+      request:
+        '인테리어업체에서 실내 안내 사인용으로 포맥스 간판 제작을 요청한 사례입니다. 실내 부착 조건에 맞춰 소재와 두께를 안내했습니다.',
+      materialDetail:
+        '포맥스는 가벼워서 실내 벽면 부착에 부담이 없고, 컷팅·도색이 쉬워 실내 사인 제작에 적합한 소재입니다.',
+      methodDetail:
+        '시안 외곽선을 따라 CNC로 컷팅하고 도색 마감했습니다. 같은 디자인을 여러 장 제작해도 크기와 형태가 동일하게 유지됩니다.',
+      cautions: [
+        '옥외 장기 사용에는 소재 특성상 한계가 있어 용도를 알려주시면 적합한 소재를 안내드립니다.',
+        '크기·두께·수량에 따라 견적이 달라집니다.',
+        '부착 방식(양면테이프/피스 등)은 현장 조건에 맞춰 주문 업체에서 결정합니다.',
+      ],
+      result:
+        '실내 부착에 적합한 무게와 마감으로 완성해 출고했습니다. 부착·설치는 주문 업체에서 진행했습니다.',
+      orderInfo: [
+        '시안 AI 파일 또는 디자인 이미지',
+        '희망 크기·두께·수량',
+        '사용 위치(실내/옥외)',
+        '납기 희망일과 배송 지역',
+      ],
+    },
   },
 ];
 
 export function getPortfolioByCategory(category: CategorySlug): PortfolioItem[] {
   return PORTFOLIO_ITEMS.filter((item) => item.category === category);
+}
+
+export function getPortfolioItemBySlug(slug: string): PortfolioItem | undefined {
+  return PORTFOLIO_ITEMS.find((item) => item.slug === slug);
 }

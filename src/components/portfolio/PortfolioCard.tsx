@@ -1,4 +1,6 @@
 import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRightIcon } from 'lucide-react';
 import type { Category } from '@/lib/data/categories';
 import type { PortfolioItem } from '@/lib/data/portfolio';
 
@@ -15,8 +17,8 @@ export function PortfolioCard({ item, category }: PortfolioCardProps) {
     { label: '제작 방식', value: item.method },
   ];
 
-  return (
-    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-2">
+  const card = (
+    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-2 transition-colors group-hover:border-white/25">
       {item.imageUrl ? (
         <div className="relative h-44 w-full">
           <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
@@ -44,7 +46,21 @@ export function PortfolioCard({ item, category }: PortfolioCardProps) {
             </div>
           ))}
         </dl>
+        {item.caseStudy && (
+          <span className="inline-flex items-center gap-1 text-sm font-semibold text-point">
+            사례 자세히 보기
+            <ArrowRightIcon className="size-4 transition-transform group-hover:translate-x-0.5" />
+          </span>
+        )}
       </div>
     </div>
+  );
+
+  if (!item.caseStudy) return card;
+
+  return (
+    <Link href={`/portfolio/${item.slug}`} className="group block h-full">
+      {card}
+    </Link>
   );
 }
