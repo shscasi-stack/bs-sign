@@ -5,7 +5,7 @@ import { MobileNav } from './MobileNav';
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-40 border-b border-white/10 bg-ink/95 text-white backdrop-blur supports-backdrop-filter:bg-ink/80">
+    <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 text-neutral-900 backdrop-blur supports-backdrop-filter:bg-white/80">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3">
         <Link href="/" className="shrink-0 font-heading text-base font-bold tracking-tight">
           {BRAND_NAME}
@@ -16,7 +16,7 @@ export function Header() {
             <Link
               key={item.href}
               href={item.href}
-              className="text-white/70 transition-colors hover:text-white"
+              className="text-neutral-600 transition-colors hover:text-neutral-900"
             >
               {item.label}
             </Link>

@@ -18,7 +18,7 @@ export function PortfolioCard({ item, category }: PortfolioCardProps) {
   ];
 
   const card = (
-    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-2 transition-colors group-hover:border-white/25">
+    <div className="flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition-shadow group-hover:shadow-lg">
       {item.imageUrl ? (
         <div className="relative h-44 w-full">
           <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
@@ -35,14 +35,14 @@ export function PortfolioCard({ item, category }: PortfolioCardProps) {
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div>
           <span className="text-xs font-medium text-point">{category.name}</span>
-          <h3 className="mt-1 font-heading font-semibold text-white">{item.title}</h3>
-          <p className="mt-1.5 text-sm leading-relaxed text-white/60">{item.description}</p>
+          <h3 className="mt-1 font-heading font-semibold text-neutral-900">{item.title}</h3>
+          <p className="mt-1.5 text-sm leading-relaxed text-neutral-600">{item.description}</p>
         </div>
-        <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-2 border-t border-white/10 pt-3 text-xs">
+        <dl className="mt-auto grid grid-cols-2 gap-x-4 gap-y-2 border-t border-neutral-200 pt-3 text-xs">
           {specs.map((spec) => (
             <div key={spec.label}>
-              <dt className="text-white/40">{spec.label}</dt>
-              <dd className="mt-0.5 text-white/80">{spec.value}</dd>
+              <dt className="text-neutral-400">{spec.label}</dt>
+              <dd className="mt-0.5 text-neutral-700">{spec.value}</dd>
             </div>
           ))}
         </dl>

@@ -19,7 +19,7 @@ export function MobileNav() {
     <Sheet>
       <SheetTrigger
         render={
-          <Button variant="ghost" size="icon" aria-label="메뉴 열기" className="text-white hover:bg-white/10" />
+          <Button variant="ghost" size="icon" aria-label="메뉴 열기" />
         }
         className="md:hidden"
       >

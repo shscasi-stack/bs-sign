@@ -28,7 +28,7 @@ export function FloatingCTA() {
       <a
         href="tel:010-9804-8285"
         aria-label="전화 문의 010-9804-8285"
-        className="flex items-center gap-2 rounded-full border border-white/15 bg-ink-2/95 px-4 py-3 text-sm font-medium text-white shadow-lg backdrop-blur transition-colors hover:bg-ink-2"
+        className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white/95 px-4 py-3 text-sm font-medium text-neutral-900 shadow-lg backdrop-blur transition-colors hover:bg-white"
       >
         <PhoneIcon className="size-4 text-point" />
         <span className="hidden sm:inline">전화 문의</span>

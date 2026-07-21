@@ -60,14 +60,14 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
   ];
 
   return (
-    <main className="flex flex-1 flex-col bg-ink text-white">
+    <main className="flex flex-1 flex-col bg-white text-neutral-900">
       {/* 헤더 */}
-      <section className="border-b border-white/10 px-4 pt-10 pb-12">
+      <section className="border-b border-neutral-200 bg-ink-light px-4 pt-10 pb-12">
         <div className="mx-auto max-w-3xl">
           <FadeIn>
             <Link
               href="/portfolio"
-              className="inline-flex items-center gap-1.5 text-sm text-white/60 transition-colors hover:text-white"
+              className="inline-flex items-center gap-1.5 text-sm text-neutral-500 transition-colors hover:text-neutral-900"
             >
               <ArrowLeftIcon className="size-4" />
               제작 사례 전체 보기
@@ -81,7 +81,7 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
               <span className="text-sm font-medium text-point">{category.name} 제작 사례</span>
             </div>
             <h1 className="mt-4 text-3xl font-bold leading-tight">{item.title}</h1>
-            <p className="mt-3 text-white/70">{item.description}</p>
+            <p className="mt-3 text-neutral-600">{item.description}</p>
           </FadeIn>
         </div>
       </section>
@@ -91,7 +91,7 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
         <div className="mx-auto max-w-3xl">
           <FadeIn>
             {item.imageUrl ? (
-              <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-white/10">
+              <div className="relative aspect-[16/9] overflow-hidden rounded-xl border border-neutral-200">
                 <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
               </div>
             ) : (
@@ -113,22 +113,22 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
           <FadeIn>
             <div className="flex items-center gap-2 text-point">
               <MessageSquareTextIcon className="size-5" />
-              <h2 className="text-lg font-bold text-white">제작 요청 내용</h2>
+              <h2 className="text-lg font-bold text-neutral-900">제작 요청 내용</h2>
             </div>
-            <p className="mt-3 leading-relaxed text-white/75">{caseStudy.request}</p>
+            <p className="mt-3 leading-relaxed text-neutral-700">{caseStudy.request}</p>
           </FadeIn>
 
           <FadeIn>
             <div className="flex items-center gap-2 text-point">
               <ClipboardListIcon className="size-5" />
-              <h2 className="text-lg font-bold text-white">사용한 소재와 스펙</h2>
+              <h2 className="text-lg font-bold text-neutral-900">사용한 소재와 스펙</h2>
             </div>
-            <p className="mt-3 leading-relaxed text-white/75">{caseStudy.materialDetail}</p>
-            <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-white/10 bg-white/10 sm:grid-cols-4">
+            <p className="mt-3 leading-relaxed text-neutral-700">{caseStudy.materialDetail}</p>
+            <dl className="mt-4 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-neutral-200 bg-neutral-200 sm:grid-cols-4">
               {specs.map((spec) => (
-                <div key={spec.label} className="bg-ink-2 px-4 py-3">
-                  <dt className="text-xs text-white/40">{spec.label}</dt>
-                  <dd className="mt-1 text-sm font-medium text-white/90">{spec.value}</dd>
+                <div key={spec.label} className="bg-neutral-50 px-4 py-3">
+                  <dt className="text-xs text-neutral-400">{spec.label}</dt>
+                  <dd className="mt-1 text-sm font-medium text-neutral-800">{spec.value}</dd>
                 </div>
               ))}
             </dl>
@@ -137,19 +137,19 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
           <FadeIn>
             <div className="flex items-center gap-2 text-point">
               <WrenchIcon className="size-5" />
-              <h2 className="text-lg font-bold text-white">가공방식 — 어떻게 만들었나</h2>
+              <h2 className="text-lg font-bold text-neutral-900">가공방식 — 어떻게 만들었나</h2>
             </div>
-            <p className="mt-3 leading-relaxed text-white/75">{caseStudy.methodDetail}</p>
+            <p className="mt-3 leading-relaxed text-neutral-700">{caseStudy.methodDetail}</p>
           </FadeIn>
 
           <FadeIn>
             <div className="flex items-center gap-2 text-point">
               <AlertTriangleIcon className="size-5" />
-              <h2 className="text-lg font-bold text-white">제작 시 주의점</h2>
+              <h2 className="text-lg font-bold text-neutral-900">제작 시 주의점</h2>
             </div>
             <ul className="mt-3 flex flex-col gap-2.5">
               {caseStudy.cautions.map((caution) => (
-                <li key={caution} className="flex gap-2.5 text-white/75">
+                <li key={caution} className="flex gap-2.5 text-neutral-700">
                   <span className="mt-2 size-1.5 shrink-0 rounded-full bg-point" />
                   <span className="leading-relaxed">{caution}</span>
                 </li>
@@ -160,24 +160,24 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
           <FadeIn>
             <div className="flex items-center gap-2 text-point">
               <CheckCircle2Icon className="size-5" />
-              <h2 className="text-lg font-bold text-white">완성 결과</h2>
+              <h2 className="text-lg font-bold text-neutral-900">완성 결과</h2>
             </div>
-            <p className="mt-3 leading-relaxed text-white/75">{caseStudy.result}</p>
+            <p className="mt-3 leading-relaxed text-neutral-700">{caseStudy.result}</p>
           </FadeIn>
 
           {/* 주문 시 필요한 정보 — 견적 전 준비물 체크리스트 */}
           <FadeIn>
-            <div className="rounded-xl border border-white/10 bg-ink-2 p-6">
+            <div className="rounded-xl border border-neutral-200 bg-ink-light p-6">
               <div className="flex items-center gap-2 text-point">
                 <FileTextIcon className="size-5" />
-                <h2 className="text-lg font-bold text-white">같은 제작을 주문하려면</h2>
+                <h2 className="text-lg font-bold text-neutral-900">같은 제작을 주문하려면</h2>
               </div>
-              <p className="mt-2 text-sm text-white/60">
+              <p className="mt-2 text-sm text-neutral-500">
                 아래 정보를 함께 보내주시면 견적 안내가 빨라집니다.
               </p>
               <ul className="mt-4 flex flex-col gap-2.5">
                 {caseStudy.orderInfo.map((info) => (
-                  <li key={info} className="flex items-center gap-2.5 text-white/80">
+                  <li key={info} className="flex items-center gap-2.5 text-neutral-700">
                     <CheckCircle2Icon className="size-4 shrink-0 text-point" />
                     <span className="text-sm">{info}</span>
                   </li>
@@ -198,7 +198,6 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
                   variant="outline"
                   nativeButton={false}
                   render={<Link href={`/products/${category.slug}`} />}
-                  className="border-white/20 bg-transparent text-white hover:bg-white/10 hover:text-white"
                 >
                   {category.name} 품목 보기
                 </Button>
@@ -210,7 +209,7 @@ export default async function PortfolioCasePage({ params }: CasePageProps) {
 
       {/* 같은 품목의 다른 사례 */}
       {related.length > 0 && (
-        <section className="border-t border-white/10 px-4 py-12">
+        <section className="border-t border-neutral-200 bg-ink-light px-4 py-12">
           <div className="mx-auto max-w-6xl">
             <FadeIn>
               <h2 className="text-xl font-bold">같은 품목의 다른 사례</h2>

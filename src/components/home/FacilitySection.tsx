@@ -38,14 +38,14 @@ const FACILITY_PHOTOS: FacilityPhoto[] = [
 
 export function FacilitySection() {
   return (
-    <section id="facility" className="scroll-mt-16 bg-ink text-white">
+    <section id="facility" className="scroll-mt-16 bg-white text-neutral-900">
       <div className="mx-auto max-w-6xl px-4 py-20">
         <FadeIn>
           <p className="text-xs font-semibold tracking-[0.2em] text-point">IN-HOUSE FACTORY</p>
           <h2 className="mt-3 text-2xl font-bold sm:text-3xl">
             자체 CNC·레이저 설비로 직접 제작합니다
           </h2>
-          <p className="mt-3 max-w-2xl text-white/70">
+          <p className="mt-3 max-w-2xl text-neutral-600">
             외주 없이 자체 설비로 가공하기 때문에 시안 조율과 납기 대응이 빠릅니다. 아래는 실제
             작업장에서 촬영한 장비와 가공 장면입니다.
           </p>
@@ -54,7 +54,7 @@ export function FacilitySection() {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {FACILITY_PHOTOS.map((photo, index) => (
             <FadeIn key={photo.src} delay={index * 0.06}>
-              <figure className="flex h-full flex-col overflow-hidden rounded-xl border border-white/10 bg-ink-2">
+              <figure className="flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
                 <div className="relative aspect-[4/3]">
                   <Image
                     src={photo.src}
@@ -66,7 +66,7 @@ export function FacilitySection() {
                 </div>
                 <figcaption className="flex flex-1 flex-col p-4">
                   <span className="font-heading font-semibold">{photo.caption}</span>
-                  <span className="mt-1 text-sm leading-relaxed text-white/60">
+                  <span className="mt-1 text-sm leading-relaxed text-neutral-600">
                     {photo.description}
                   </span>
                 </figcaption>

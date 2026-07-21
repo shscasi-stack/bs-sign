@@ -11,12 +11,12 @@ export const metadata: Metadata = {
 
 export default function PortfolioPage() {
   return (
-    <main className="flex flex-1 flex-col bg-ink text-white">
-      <section className="border-b border-white/10 px-4 py-16 text-center">
+    <main className="flex flex-1 flex-col bg-white text-neutral-900">
+      <section className="border-b border-neutral-200 bg-ink-light px-4 py-16 text-center">
         <FadeIn>
           <p className="text-xs font-semibold tracking-[0.2em] text-point">PORTFOLIO</p>
           <h1 className="mt-3 text-3xl font-bold">제작 사례</h1>
-          <p className="mt-3 text-white/70">
+          <p className="mt-3 text-neutral-600">
             백송사인이 제작한 다양한 사인물과 가공 결과물을 확인해보세요.
           </p>
         </FadeIn>
@@ -27,7 +27,7 @@ export default function PortfolioPage() {
         if (items.length === 0) return null;
 
         return (
-          <section key={category.slug} className="border-b border-white/10 px-4 py-14 last:border-b-0">
+          <section key={category.slug} className="border-b border-neutral-200 px-4 py-14 last:border-b-0">
             <div className="mx-auto max-w-6xl">
               <FadeIn>
                 <div className="flex items-center gap-2">

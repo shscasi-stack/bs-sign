@@ -12,7 +12,7 @@ const PREVIEW_ITEMS = PORTFOLIO_ITEMS.filter(
 
 export function PortfolioPreview() {
   return (
-    <section className="bg-white text-neutral-900">
+    <section className="bg-ink-light text-neutral-900">
       <div className="mx-auto max-w-6xl px-4 py-20">
         <FadeIn>
           <div className="flex flex-wrap items-end justify-between gap-4">
