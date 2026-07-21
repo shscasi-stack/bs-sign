@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRightIcon, CheckIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -68,26 +69,22 @@ export function HeroSection() {
           </FadeIn>
 
           <FadeIn delay={0.1}>
-            {/* TODO: 대표 제품 이미지 교체 — /public/images/hero-main.jpg
-                (고무스카시·아크릴·포맥스·LED네온이 조합된 클로즈업, 측면 두께·LED 점등이 보이는 컷) */}
-            <div className="relative aspect-[4/3] overflow-hidden rounded-xl border border-white/10 bg-ink-2">
-              <div className="absolute inset-0 bg-gradient-to-br from-point/20 via-transparent to-neon/20" />
-              <div className="grid h-full grid-cols-2 gap-3 p-4">
-                {CATEGORIES.map((category) => (
-                  <div
-                    key={category.slug}
-                    className="flex flex-col justify-between rounded-lg border border-white/10 bg-white/[0.03] p-4"
-                  >
-                    <div
-                      className={`flex size-9 items-center justify-center rounded-md bg-gradient-to-br ${category.gradientClassName}`}
-                    >
-                      <category.icon className="size-5 text-white" />
-                    </div>
-                    <span className="text-sm font-medium text-white/90">{category.name}</span>
-                  </div>
-                ))}
+            {/* 실제 작업장 전경 — 자체 CNC 설비와 LED 네온 샘플월 */}
+            <figure className="overflow-hidden rounded-xl border border-white/10 bg-ink-2">
+              <div className="relative aspect-[4/3]">
+                <Image
+                  src="/images/factory/factory-overview.jpg"
+                  alt="백송사인 작업장 전경 — CNC 장비와 LED 네온 샘플"
+                  fill
+                  priority
+                  sizes="(min-width: 1024px) 560px, 100vw"
+                  className="object-cover"
+                />
               </div>
-            </div>
+              <figcaption className="border-t border-white/10 px-4 py-2.5 text-xs text-white/60">
+                백송사인 작업장 — 자체 CNC·레이저 설비로 직접 제작합니다
+              </figcaption>
+            </figure>
           </FadeIn>
         </div>
 
