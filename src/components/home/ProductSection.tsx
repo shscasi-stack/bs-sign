@@ -8,9 +8,10 @@ export function ProductSection() {
     <section id="products" className="scroll-mt-16 bg-ink-light text-neutral-900">
       <div className="mx-auto max-w-6xl px-4 py-20">
         <FadeIn>
-          <h2 className="text-2xl font-bold sm:text-3xl">백송사인의 제작 품목</h2>
+          <h2 className="text-2xl font-bold sm:text-3xl">소재별 제작 품목과 가공방식</h2>
           <p className="mt-3 max-w-2xl text-neutral-600">
-            광고사와 간판업체가 반복 발주하기 편하도록 품목별 제작 기준과 사례를 정리했습니다.
+            소재마다 가능한 가공방식과 주로 발주하는 고객을 정리했습니다. 광고사·간판업체가
+            반복 발주하기 편하도록 품목별로 나눴습니다.
           </p>
         </FadeIn>
 
@@ -29,8 +30,21 @@ export function ProductSection() {
                 </div>
                 <div className="flex flex-1 flex-col p-5">
                   <h3 className="font-heading text-lg font-semibold">{category.name}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-relaxed text-neutral-600">
+                  <p className="mt-2 text-sm leading-relaxed text-neutral-600">
                     {category.description}
+                  </p>
+                  <div className="mt-3 flex flex-wrap gap-1.5">
+                    {category.methods.map((method) => (
+                      <span
+                        key={method}
+                        className="rounded-full bg-neutral-100 px-2.5 py-1 text-xs font-medium text-neutral-700"
+                      >
+                        {method}
+                      </span>
+                    ))}
+                  </div>
+                  <p className="mt-3 flex-1 text-xs text-neutral-500">
+                    <span className="font-medium text-neutral-600">주문 고객</span> · {category.customers}
                   </p>
                   <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-point">
                     {category.name} 보기

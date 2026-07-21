@@ -1,9 +1,11 @@
 import Link from 'next/link';
-import { ArrowRightIcon } from 'lucide-react';
+import { ArrowRightIcon, CheckIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { CATEGORIES } from '@/lib/data/categories';
 import { QUOTE_CTA } from '@/lib/data/navigation';
+
+const HERO_BADGES = ['자체 CNC·레이저 보유', '소량·대량 제작', '빠른 납기', '전국 택배'];
 
 export function HeroSection() {
   return (
@@ -15,13 +17,34 @@ export function HeroSection() {
               B2B SIGN MANUFACTURING PARTNER
             </p>
             <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl lg:text-[2.75rem]">
-              광고사와 인테리어업체, 간판업체를 위한
-              <br className="hidden sm:block" /> 사인물 제작·가공 전문 파트너
+              간판·인테리어·광고업체를 위한
+              <br className="hidden sm:block" /> 광고사인물 제작 전문 공장
             </h1>
-            <p className="mt-5 max-w-xl text-base leading-relaxed text-white/70">
-              고무스카시부터 아크릴·포맥스 가공, LED 네온까지 도면과 시안을 보내주시면
-              제작 가능 여부와 견적을 빠르게 안내드립니다.
+            <p className="mt-5 text-base font-medium text-white/90">
+              고무스카시 · 아크릴문자 · 포맥스가공 · 포맥스돔보 · LED네온
             </p>
+            <p className="mt-3 max-w-xl text-base leading-relaxed text-white/70">
+              도면과 시안을 보내주시면 제작 가능 여부와 견적을 빠르게 안내드립니다.
+            </p>
+
+            {/* 신뢰 배지 (애드에어 벤치마킹 — 공장 직영·강점 먼저 노출) */}
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {HERO_BADGES.map((badge) => (
+                <li
+                  key={badge}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 text-sm text-white/85"
+                >
+                  <CheckIcon className="size-3.5 text-point" />
+                  {badge}
+                </li>
+              ))}
+            </ul>
+
+            {/* 포지셔닝: 시공업체와 경쟁하지 않는 전문 제작 파트너 */}
+            <p className="mt-5 rounded-lg border border-white/10 bg-white/[0.03] px-4 py-3 text-sm text-white/60">
+              ※ 현장 시공은 진행하지 않으며, 제작·납품에 집중하는 전문 제작 파트너입니다.
+            </p>
+
             <div className="mt-8 flex flex-wrap gap-3">
               <Button
                 size="lg"
