@@ -76,7 +76,8 @@ export function HeroSection() {
                   alt="백송사인 작업장 전경 — CNC 장비와 LED 네온 샘플"
                   fill
                   priority
-                  sizes="(min-width: 1024px) 560px, 100vw"
+                  quality={90}
+                  sizes="(min-width: 1024px) 50vw, 100vw"
                   className="object-cover"
                 />
               </div>
