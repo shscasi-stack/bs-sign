@@ -72,8 +72,8 @@ export function HeroSection() {
             <figure className="overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
               <div className="relative aspect-[4/3]">
                 <Image
-                  src="/images/factory/hero-clean.jpg"
-                  alt="백송사인 작업장 — CNC 장비와 LED 네온 샘플월"
+                  src="/images/factory/factory-overview.jpg"
+                  alt="백송사인 작업장 전경 — CNC 장비와 LED 네온 샘플"
                   fill
                   priority
                   quality={90}
