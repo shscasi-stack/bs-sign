@@ -1,59 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
+import { ContactButtons } from './ContactButtons';
 
 /**
  * 메인페이지 K안 (파스텔 버전).
  * 디자인 시안 "K안 · 도파민 컬러"의 pastel 테마를 그대로 옮긴 것.
- * 색은 여기 PALETTE 한 곳에서만 관리한다.
+ * 색은 src/lib/kTheme.ts 에서 관리한다.
  */
-const PALETTE = {
-  ink: '#2B2840',
-  inkSub: '#4E4A66',
-  heroBg: '#E8E0FF',
-  highlight: '#FFC2D6',
-  badge: '#FFE9A8',
-  band: '#D4F2E6',
-  soft: '#FFF7F0',
-  cta: '#D9E8FF',
-} as const;
-
-const PHONE = '010-9804-8285';
-/** 카카오톡 채널/오픈채팅 주소. 비어 있으면 카카오톡 버튼을 숨긴다. */
-const KAKAO_URL = 'https://open.kakao.com/o/sLiV3SJh';
-
-const BUTTON = 'inline-flex items-center justify-center rounded-full px-7 py-4 text-base font-bold sm:text-lg';
-
-/** 도면·시안 견적 → 카카오톡 → 전화 순서의 문의 버튼 줄. */
-function ContactButtons({
-  quoteClassName,
-  phoneClassName,
-  className = '',
-}: {
-  quoteClassName: string;
-  phoneClassName: string;
-  className?: string;
-}) {
-  return (
-    <div className={`flex flex-wrap gap-3 ${className}`}>
-      <Link href="/quote" className={`${BUTTON} ${quoteClassName}`}>
-        도면·시안 보내고 견적받기
-      </Link>
-      {KAKAO_URL && (
-        <a
-          href={KAKAO_URL}
-          target="_blank"
-          rel="noopener noreferrer"
-          className={`${BUTTON} bg-[#FEE500] text-[#191919]`}
-        >
-          카카오톡 문의
-        </a>
-      )}
-      <a href={`tel:${PHONE}`} className={`${BUTTON} ${phoneClassName}`}>
-        {PHONE}
-      </a>
-    </div>
-  );
-}
 
 const STATS = [
   { big: '34년', small: '아버지와 아들, 2대째' },
@@ -72,10 +26,10 @@ const WORKS = [
 ] as const;
 
 const ITEMS = [
-  { slug: 'rubber-scasi', name: '고무스카시', desc: '고무 + 알루미늄 입체 문자', bg: '#E8E0FF' },
-  { slug: 'acrylic', name: '아크릴', desc: '투명 · 유색 · 미러 · 백색 · 검정 무광', bg: '#D9E8FF' },
-  { slug: 'formex', name: '포맥스 가공 · 돔보', desc: '실사 외곽선 그대로', bg: '#FFE0D1' },
-  { slug: 'led-neon', name: 'LED네온', desc: '6mm · 12mm 실리콘 네온', bg: '#FFD6E2' },
+  { slug: 'rubber-scasi', name: '고무스카시', desc: '고무 + 알루미늄 입체 문자', bg: CATEGORY_PASTEL['rubber-scasi'] },
+  { slug: 'acrylic', name: '아크릴', desc: '투명 · 유색 · 미러 · 백색 · 검정 무광', bg: CATEGORY_PASTEL.acrylic },
+  { slug: 'formex', name: '포맥스 가공 · 돔보', desc: '실사 외곽선 그대로', bg: CATEGORY_PASTEL.formex },
+  { slug: 'led-neon', name: 'LED네온', desc: '6mm · 12mm 실리콘 네온', bg: CATEGORY_PASTEL['led-neon'] },
 ] as const;
 
 export function KHome() {

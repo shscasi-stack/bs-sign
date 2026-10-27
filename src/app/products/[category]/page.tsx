@@ -1,13 +1,11 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { ArrowRightIcon } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { FadeIn } from '@/components/motion/FadeIn';
-import { PortfolioCard } from '@/components/portfolio/PortfolioCard';
+import { ContactButtons } from '@/components/home/ContactButtons';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
-import { QUOTE_CTA } from '@/lib/data/navigation';
+import { CARD_PASTELS, CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
 
 type PageProps = {
   params: Promise<{ category: string }>;
@@ -43,79 +41,92 @@ export default async function CategoryPage({ params }: PageProps) {
   const isLedNeon = category.slug === 'led-neon';
 
   return (
-    <main className="flex flex-1 flex-col bg-white text-neutral-900">
-      {/* 히어로 */}
-      <section className="border-b border-neutral-200 bg-ink-light">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <FadeIn>
-            <p className="text-xs font-semibold tracking-[0.2em] text-point">
-              SIGN MANUFACTURING
-            </p>
-            <div className="mt-4 flex items-center gap-4">
-              <div
-                className={`flex size-12 items-center justify-center rounded-lg bg-gradient-to-br ${category.gradientClassName}`}
-              >
-                <category.icon className="size-6 text-white" />
-              </div>
-              <h1 className="text-3xl font-bold">{category.name}</h1>
-            </div>
-            <p className="mt-4 max-w-xl text-neutral-600">{category.description}</p>
-          </FadeIn>
+    <main className="flex flex-1 flex-col" style={{ color: PALETTE.ink }}>
+      {/* 히어로 — 품목 대표 파스텔 */}
+      <section style={{ background: CATEGORY_PASTEL[category.slug] }}>
+        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 pt-14 pb-16 sm:px-6 lg:pt-20 lg:pb-20">
+          <span className="self-start rounded-full bg-white/70 px-4 py-1.5 text-sm font-bold">
+            {category.tagline}
+          </span>
+          <h1 className="text-5xl leading-[1.15] font-extrabold tracking-tight sm:text-6xl">
+            {category.name}
+          </h1>
+          <p className="max-w-xl text-lg leading-relaxed font-medium" style={{ color: PALETTE.inkSub }}>
+            {category.description}
+          </p>
+          <ul className="flex flex-wrap gap-2">
+            {category.methods.map((method) => (
+              <li key={method} className="rounded-full bg-white/65 px-4 py-2 text-sm font-semibold">
+                {method}
+              </li>
+            ))}
+          </ul>
+          <ContactButtons className="mt-2" quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" />
         </div>
       </section>
 
-      {/* 제작 사례 */}
-      <section className="px-4 py-16">
-        <div className="mx-auto max-w-6xl">
-          <FadeIn>
-            <h2 className="text-2xl font-bold">{category.name} 제작 사례</h2>
-          </FadeIn>
+      {/* 작업 사례 */}
+      <section style={{ background: PALETTE.soft }}>
+        <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6">
+          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{category.name} 작업 사례</h2>
           {portfolio.length > 0 ? (
-            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {portfolio.map((item, index) => (
-                <FadeIn key={item.slug} delay={index * 0.06}>
-                  <PortfolioCard item={item} category={category} />
-                </FadeIn>
+                <figure
+                  key={item.slug}
+                  className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5"
+                  style={{ background: CARD_PASTELS[index % CARD_PASTELS.length] }}
+                >
+                  <div className="relative h-[250px] overflow-hidden rounded-[22px]">
+                    <Image
+                      src={item.imageUrl!}
+                      alt={item.title}
+                      fill
+                      quality={90}
+                      sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+                      className="object-cover"
+                    />
+                  </div>
+                  <figcaption className="flex flex-col gap-1 px-2 pb-1.5">
+                    <span className="text-xl font-extrabold">{item.title}</span>
+                    <span className="text-sm" style={{ color: PALETTE.inkSub }}>
+                      {item.material} · {item.method}
+                    </span>
+                  </figcaption>
+                </figure>
               ))}
             </div>
           ) : (
-            <p className="mt-6 rounded-xl border border-dashed border-neutral-300 px-6 py-12 text-center text-neutral-500">
+            <p className="rounded-[32px] bg-white px-6 py-14 text-center text-lg leading-relaxed font-medium">
               {category.name} 작업 사진을 준비하고 있어요.
               <br />
-              제작 가능 여부는 도면·시안을 보내주시면 바로 안내드려요.
+              <span style={{ color: PALETTE.inkSub }}>
+                제작 가능 여부는 도면·시안을 보내주시면 바로 안내드려요.
+              </span>
             </p>
           )}
         </div>
       </section>
 
-      {/* 카테고리별 CTA */}
-      <section id="contact" className="border-t border-neutral-200 bg-ink-light">
-        <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-16 text-center">
-          <h2 className="text-xl font-bold sm:text-2xl">{category.name} 제작을 문의하세요</h2>
-          <p className="text-neutral-600">
-            도면과 시안, 규격을 보내주시면 제작 가능 여부와 견적, 납기를 빠르게 안내해 드립니다.
+      {/* 문의 */}
+      <section id="contact" className="scroll-mt-16" style={{ background: PALETTE.cta }}>
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-20 text-center sm:px-6">
+          <h2 className="text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">
+            {category.name}, 사진만 보내주세요
+          </h2>
+          <p className="text-base" style={{ color: PALETTE.inkSub }}>
+            도면·시안과 원하는 크기를 보내주시면 제작 가능 여부와 견적, 납기를 안내드려요.
           </p>
-          <div className="mt-2 flex flex-wrap justify-center gap-3">
-            {isLedNeon && (
-              <Button
-                size="lg"
-                variant="outline"
-                nativeButton={false}
-                render={<Link href="/configurator" />}
-              >
-                실시간 견적 계산기
-              </Button>
-            )}
-            <Button
-              size="lg"
-              nativeButton={false}
-              render={<Link href={QUOTE_CTA.href} />}
-              className="font-semibold"
-            >
-              {QUOTE_CTA.label}
-              <ArrowRightIcon />
-            </Button>
-          </div>
+          <ContactButtons
+            className="justify-center"
+            quoteClassName="bg-white text-[#2B2840]"
+            phoneClassName="bg-[#2B2840] text-white"
+          />
+          {isLedNeon && (
+            <Link href="/configurator" className="text-base font-bold underline underline-offset-4">
+              실시간 견적 계산기로 가격 바로 보기 →
+            </Link>
+          )}
         </div>
       </section>
     </main>
