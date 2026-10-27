@@ -16,7 +16,7 @@ export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) 
       style={{ background: PALETTE.heroBg }}
     >
       <div>
-        <h2 className="text-xl font-extrabold tracking-tight">실시간 견적</h2>
+        <h2 className="text-xl font-extrabold tracking-tight">내 네온 예상 가격</h2>
         <p className="mt-1 text-sm" style={{ color: PALETTE.inkSub }}>
           한글 6cm, 영문 4cm 이상 작업 가능
           <br />

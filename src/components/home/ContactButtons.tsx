@@ -16,7 +16,7 @@ export function ContactButtons({
   quoteClassName: string;
   phoneClassName: string;
   className?: string;
-  /** 전화번호 오른쪽에 LED네온 단가 계산기 버튼을 붙인다. */
+  /** 전화번호 오른쪽에 네온 가격 계산기 버튼을 붙인다. */
   showCalculator?: boolean;
 }) {
   return (
@@ -39,7 +39,7 @@ export function ContactButtons({
       </a>
       {showCalculator && (
         <Link href="/configurator" className={`${BUTTON} bg-[#FFC2D6] text-[#2B2840]`}>
-          LED네온 단가 계산
+          네온 가격 직접 계산해보기
         </Link>
       )}
     </div>

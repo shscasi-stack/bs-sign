@@ -107,7 +107,7 @@ export default async function CategoryPage({ params }: PageProps) {
           />
           {isLedNeon && (
             <Link href="/configurator" className="text-base font-bold underline underline-offset-4">
-              실시간 견적 계산기로 가격 바로 보기 →
+              네온 가격, 직접 계산해보기 →
             </Link>
           )}
         </div>
