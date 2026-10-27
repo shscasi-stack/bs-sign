@@ -1,5 +1,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { CountUp } from '@/components/motion/CountUp';
+import { FadeIn } from '@/components/motion/FadeIn';
+import { PopIn } from '@/components/motion/PopIn';
 import { CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
 import { ContactButtons } from './ContactButtons';
 
@@ -10,9 +13,9 @@ import { ContactButtons } from './ContactButtons';
  */
 
 const STATS = [
-  { big: '34년', small: '아버지와 아들, 2대째' },
+  { count: 34, unit: '년', small: '아버지와 아들, 2대째' },
   { big: '1~3일', small: '보통 걸리는 시간' },
-  { big: '200곳', suffix: ' 이상', small: '믿고 맡기는 업체' },
+  { count: 200, unit: '곳', suffix: ' 이상', small: '믿고 맡기는 업체' },
   { big: '시공은\n직접', small: '완성품으로 보내드려요, 설치는 직접 해주세요', compact: true },
 ] as const;
 
@@ -35,6 +38,8 @@ export function KHome() {
       {/* 히어로 */}
       <section style={{ background: PALETTE.heroBg }}>
         <div className="mx-auto flex max-w-6xl flex-col gap-12 px-4 pt-14 pb-20 sm:px-6 lg:flex-row lg:items-center lg:pt-20 lg:pb-24">
+          {/* Hero copy and photo render immediately (no entrance) so the first
+              screen never waits on JavaScript; only the stickers pop. */}
           <div className="flex flex-1 flex-col gap-6">
             <h1 className="text-5xl leading-[1.15] font-extrabold tracking-tight sm:text-6xl lg:text-7xl">
               스카시부터
@@ -66,47 +71,58 @@ export function KHome() {
                 className="object-cover"
               />
             </div>
-            {/* 숫자 스티커 — "우리 이 정도다" */}
-            <span
+            {/* 숫자 스티커 — "우리 이 정도다". 사진 뒤에 하나씩 튀어나온다. */}
+            <PopIn
+              delay={0.5}
               className="absolute top-0 left-0 -rotate-6 rounded-2xl border-4 border-white px-4 py-2.5 text-center leading-tight shadow-[0_10px_24px_rgba(0,0,0,0.15)]"
               style={{ background: PALETTE.band }}
             >
               <span className="block text-xs font-bold sm:text-sm">업계 종사</span>
               <span className="block text-2xl font-black sm:text-3xl">34년</span>
-            </span>
-            <span
+            </PopIn>
+            <PopIn
+              delay={0.7}
               className="absolute bottom-0 left-0 rotate-3 rounded-2xl border-4 border-white px-4 py-2.5 text-center leading-tight shadow-[0_10px_24px_rgba(0,0,0,0.15)]"
               style={{ background: PALETTE.highlight }}
             >
               <span className="block text-xs font-bold sm:text-sm">거래처</span>
               <span className="block text-2xl font-black sm:text-3xl">200곳+</span>
-            </span>
-            <span
+            </PopIn>
+            <PopIn
+              delay={0.95}
+              from={0.3}
               className="absolute right-0 -bottom-4 flex size-32 rotate-12 flex-col items-center justify-center rounded-full border-[5px] border-white text-center leading-none shadow-[0_14px_30px_rgba(0,0,0,0.2)] sm:size-40"
               style={{ background: PALETTE.badge }}
             >
               <span className="text-sm font-bold sm:text-base">납기 지연</span>
               <span className="mt-1 text-5xl font-black tracking-tight sm:text-6xl">0건</span>
-            </span>
+            </PopIn>
           </div>
         </div>
       </section>
 
-      {/* 숫자 띠 */}
+      {/* 숫자 띠 — 숫자가 0부터 올라간다 */}
       <section style={{ background: PALETTE.band }}>
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
-          {STATS.map((s) => (
-            <div key={s.small} className="rounded-[28px] bg-white/65 p-6">
+          {STATS.map((s, i) => (
+            <FadeIn key={s.small} delay={i * 0.1} className="rounded-[28px] bg-white/65 p-6">
               <p
                 className={`m-0 font-extrabold tracking-tight whitespace-pre-line ${
                   'compact' in s ? 'text-3xl leading-tight' : 'text-5xl'
                 }`}
               >
-                {s.big}
+                {'count' in s ? (
+                  <>
+                    <CountUp to={s.count} />
+                    {s.unit}
+                  </>
+                ) : (
+                  s.big
+                )}
                 {'suffix' in s && <span className="text-2xl">{s.suffix}</span>}
               </p>
               <p className="mt-1 text-base">{s.small}</p>
-            </div>
+            </FadeIn>
           ))}
         </div>
       </section>
@@ -114,25 +130,28 @@ export function KHome() {
       {/* 함께한 기업 */}
       <section id="work" className="scroll-mt-16" style={{ background: PALETTE.soft }}>
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6">
-          <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">백송과 함께한 기업들</h2>
+          <FadeIn>
+            <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">백송과 함께한 기업들</h2>
+          </FadeIn>
           <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {WORKS.map((w) => (
-              <figure
-                key={w.src}
-                className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5"
-                style={{ background: w.bg }}
-              >
-                <div className="relative h-[250px] overflow-hidden rounded-[22px]">
-                  <Image
-                    src={w.src}
-                    alt={w.alt}
-                    fill
-                    sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
-                    className="object-cover"
-                  />
-                </div>
-                <figcaption className="px-2 pb-1.5 text-xl font-extrabold">{w.caption}</figcaption>
-              </figure>
+            {WORKS.map((w, i) => (
+              <FadeIn key={w.src} delay={i * 0.12}>
+                <figure
+                  className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5 transition-transform duration-300 hover:-translate-y-1.5"
+                  style={{ background: w.bg }}
+                >
+                  <div className="relative h-[250px] overflow-hidden rounded-[22px]">
+                    <Image
+                      src={w.src}
+                      alt={w.alt}
+                      fill
+                      sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
+                      className="object-cover transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+                  <figcaption className="px-2 pb-1.5 text-xl font-extrabold">{w.caption}</figcaption>
+                </figure>
+              </FadeIn>
             ))}
           </div>
           <Link href="/portfolio" className="self-start text-base font-bold underline underline-offset-4">
@@ -144,16 +163,17 @@ export function KHome() {
       {/* 제작 품목 */}
       <section id="products" className="scroll-mt-16 bg-white">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-20 sm:grid-cols-2 sm:px-6 lg:grid-cols-4">
-          {ITEMS.map((it) => (
-            <Link
-              key={it.slug}
-              href={`/products/${it.slug}`}
-              className="flex flex-col gap-2.5 rounded-[32px] p-7 transition-transform hover:-translate-y-1"
-              style={{ background: it.bg }}
-            >
-              <h3 className="text-2xl font-extrabold tracking-tight break-keep sm:text-3xl lg:text-2xl">{it.name}</h3>
-              <p className="leading-relaxed">{it.desc}</p>
-            </Link>
+          {ITEMS.map((it, i) => (
+            <FadeIn key={it.slug} delay={i * 0.1}>
+              <Link
+                href={`/products/${it.slug}`}
+                className="flex h-full flex-col gap-2.5 rounded-[32px] p-7 transition-transform hover:-translate-y-1"
+                style={{ background: it.bg }}
+              >
+                <h3 className="text-2xl font-extrabold tracking-tight break-keep sm:text-3xl lg:text-2xl">{it.name}</h3>
+                <p className="leading-relaxed">{it.desc}</p>
+              </Link>
+            </FadeIn>
           ))}
         </div>
       </section>
@@ -161,19 +181,23 @@ export function KHome() {
       {/* 문의 */}
       <section id="contact" className="scroll-mt-16" style={{ background: PALETTE.cta }}>
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-20 text-center sm:px-6">
-          <h2 className="text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl">
-            사진만 보내주세요,
-            <br />
-            나머진 저희가!
-          </h2>
-          <p className="text-base" style={{ color: PALETTE.inkSub }}>
-            AI · PDF · JPG · CAD 모두 받아요. 웹하드 계정은 전화로 안내드려요.
-          </p>
-          <ContactButtons
-            className="justify-center"
-            quoteClassName="bg-white text-[#2B2840]"
-            phoneClassName="bg-[#2B2840] text-white"
-          />
+          <PopIn from={0.85}>
+            <h2 className="text-4xl leading-tight font-extrabold tracking-tight sm:text-6xl">
+              사진만 보내주세요,
+              <br />
+              나머진 저희가!
+            </h2>
+          </PopIn>
+          <FadeIn delay={0.15} className="flex flex-col items-center gap-6">
+            <p className="text-base" style={{ color: PALETTE.inkSub }}>
+              AI · PDF · JPG · CAD 모두 받아요. 웹하드 계정은 전화로 안내드려요.
+            </p>
+            <ContactButtons
+              className="justify-center"
+              quoteClassName="bg-white text-[#2B2840]"
+              phoneClassName="bg-[#2B2840] text-white"
+            />
+          </FadeIn>
         </div>
       </section>
     </div>

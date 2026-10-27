@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ContactButtons } from '@/components/home/ContactButtons';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { WorkCard } from '@/components/portfolio/WorkCard';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
@@ -72,11 +73,9 @@ export default async function CategoryPage({ params }: PageProps) {
           {portfolio.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {portfolio.map((item, index) => (
-                <WorkCard
-                  key={item.slug}
-                  item={item}
-                  background={CARD_PASTELS[index % CARD_PASTELS.length]}
-                />
+                <FadeIn key={item.slug} delay={(index % 3) * 0.12}>
+                  <WorkCard item={item} background={CARD_PASTELS[index % CARD_PASTELS.length]} />
+                </FadeIn>
               ))}
             </div>
           ) : (

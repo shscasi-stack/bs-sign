@@ -3,6 +3,7 @@ import { Noto_Sans_KR, Geist_Mono } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingCTA } from "@/components/layout/FloatingCTA";
+import { MotionRoot } from "@/components/motion/MotionRoot";
 import "./globals.css";
 
 const notoSansKr = Noto_Sans_KR({
@@ -39,10 +40,12 @@ export default function RootLayout({
       className={`${notoSansKr.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
-        {children}
-        <Footer />
-        <FloatingCTA />
+        <MotionRoot>
+          <Header />
+          {children}
+          <Footer />
+          <FloatingCTA />
+        </MotionRoot>
       </body>
     </html>
   );

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ContactButtons } from '@/components/home/ContactButtons';
+import { FadeIn } from '@/components/motion/FadeIn';
 import { WorkCard } from '@/components/portfolio/WorkCard';
 import { CATEGORIES } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
@@ -56,8 +57,10 @@ export default function PortfolioPage() {
                 </Link>
               </div>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((item) => (
-                  <WorkCard key={item.slug} item={item} background={CATEGORY_PASTEL[category.slug]} />
+                {items.map((item, index) => (
+                  <FadeIn key={item.slug} delay={(index % 3) * 0.12}>
+                    <WorkCard item={item} background={CATEGORY_PASTEL[category.slug]} />
+                  </FadeIn>
                 ))}
               </div>
             </div>
