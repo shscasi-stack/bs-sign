@@ -11,10 +11,13 @@ export function ContactButtons({
   quoteClassName,
   phoneClassName,
   className = '',
+  showCalculator = false,
 }: {
   quoteClassName: string;
   phoneClassName: string;
   className?: string;
+  /** 전화번호 오른쪽에 LED네온 단가 계산기 버튼을 붙인다. */
+  showCalculator?: boolean;
 }) {
   return (
     <div className={`flex flex-wrap gap-3 ${className}`}>
@@ -34,6 +37,11 @@ export function ContactButtons({
       <a href={`tel:${PHONE}`} className={`${BUTTON} ${phoneClassName}`}>
         {PHONE}
       </a>
+      {showCalculator && (
+        <Link href="/configurator" className={`${BUTTON} bg-[#FFC2D6] text-[#2B2840]`}>
+          LED네온 단가 계산
+        </Link>
+      )}
     </div>
   );
 }

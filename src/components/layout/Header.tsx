@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CalculatorIcon, PhoneIcon } from 'lucide-react';
+import { PhoneIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { BRAND_NAME, NAV_ITEMS, QUOTE_CTA } from '@/lib/data/navigation';
 import { MobileNav } from './MobileNav';
@@ -33,18 +33,11 @@ export function Header() {
         <div className="flex items-center gap-3">
           <a
             href="tel:010-9804-8285"
-            className="hidden items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-neutral-700 transition-colors hover:text-point xl:flex"
+            className="hidden items-center gap-1.5 text-sm font-semibold whitespace-nowrap text-neutral-700 transition-colors hover:text-point lg:flex"
           >
             <PhoneIcon className="size-4 text-point" />
             010-9804-8285
           </a>
-          <Link
-            href="/configurator"
-            className="hidden items-center gap-1.5 rounded-full bg-[#FFD6E2] px-4 py-2 text-sm font-bold whitespace-nowrap text-[#2B2840] transition-colors hover:bg-[#FFC2D6] lg:flex"
-          >
-            <CalculatorIcon className="size-4" />
-            LED네온 단가 계산
-          </Link>
           <Button
             nativeButton={false}
             render={<Link href={QUOTE_CTA.href} />}

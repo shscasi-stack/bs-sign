@@ -54,7 +54,7 @@ export function KHome() {
               부천 2대째 34년. LED네온 · 스카시 · 아크릴 · 포맥스를 보통 1~3일이면 완성품으로
               보내드려요.
             </p>
-            <ContactButtons quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" />
+            <ContactButtons quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" showCalculator />
           </div>
 
           <div className="relative mx-auto h-[360px] w-full max-w-md sm:h-[440px] lg:mx-0 lg:flex-1">
