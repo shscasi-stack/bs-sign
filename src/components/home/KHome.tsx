@@ -19,7 +19,7 @@ const PALETTE = {
 
 const PHONE = '010-9804-8285';
 /** 카카오톡 채널/오픈채팅 주소. 비어 있으면 카카오톡 버튼을 숨긴다. */
-const KAKAO_URL = '';
+const KAKAO_URL = 'https://open.kakao.com/o/sLiV3SJh';
 
 const BUTTON = 'inline-flex items-center justify-center rounded-full px-7 py-4 text-base font-bold sm:text-lg';
 
