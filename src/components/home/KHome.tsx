@@ -66,11 +66,27 @@ export function KHome() {
                 className="object-cover"
               />
             </div>
+            {/* 숫자 스티커 — "우리 이 정도다" */}
             <span
-              className="absolute right-0 bottom-4 rotate-6 rounded-full px-5 py-3 text-lg font-extrabold"
+              className="absolute top-0 left-0 -rotate-6 rounded-2xl border-4 border-white px-4 py-2.5 text-center leading-tight shadow-[0_10px_24px_rgba(0,0,0,0.15)]"
+              style={{ background: PALETTE.band }}
+            >
+              <span className="block text-xs font-bold sm:text-sm">업계 종사</span>
+              <span className="block text-2xl font-black sm:text-3xl">34년</span>
+            </span>
+            <span
+              className="absolute bottom-0 left-0 rotate-3 rounded-2xl border-4 border-white px-4 py-2.5 text-center leading-tight shadow-[0_10px_24px_rgba(0,0,0,0.15)]"
+              style={{ background: PALETTE.highlight }}
+            >
+              <span className="block text-xs font-bold sm:text-sm">거래처</span>
+              <span className="block text-2xl font-black sm:text-3xl">200곳+</span>
+            </span>
+            <span
+              className="absolute right-0 -bottom-4 flex size-32 rotate-12 flex-col items-center justify-center rounded-full border-[5px] border-white text-center leading-none shadow-[0_14px_30px_rgba(0,0,0,0.2)] sm:size-40"
               style={{ background: PALETTE.badge }}
             >
-              납기 지연 0건!
+              <span className="text-sm font-bold sm:text-base">납기 지연</span>
+              <span className="mt-1 text-5xl font-black tracking-tight sm:text-6xl">0건</span>
             </span>
           </div>
         </div>
