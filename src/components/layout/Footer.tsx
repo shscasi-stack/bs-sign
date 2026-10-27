@@ -50,7 +50,7 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-1.5">
               <MapPinIcon className="size-3.5" />
-              <span>부천로167번길 11</span>
+              <span>부천로167번길 11, 1층</span>
             </li>
             <li className="text-white/50">사업자등록번호 130-39-69877</li>
           </ul>
