@@ -65,7 +65,7 @@ export function Footer() {
           className="flex w-fit items-center gap-1.5 text-sm hover:text-white"
         >
           <HardDriveIcon className="size-3.5" />
-          <span>웹하드 (ID: bs9291 / PW: 9291)</span>
+          <span>웹하드 (계정은 전화로 안내드려요)</span>
         </a>
       </div>
 

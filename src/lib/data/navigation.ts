@@ -9,12 +9,10 @@ export interface NavItem {
  * 생기면 해당 경로로 교체한다(예: /process, /quote, /company).
  */
 export const NAV_ITEMS: NavItem[] = [
+  { label: '함께한 기업', href: '/#work' },
   { label: '제작 품목', href: '/#products' },
   { label: '제작 사례', href: '/portfolio' },
-  { label: '제작 과정', href: '/#process' },
-  { label: '제작 안내', href: '/#guide' },
   { label: '견적 문의', href: '/quote' },
-  { label: '회사 소개', href: '/#company' },
 ];
 
 /** 핵심 전환 CTA — 전화가 아니라 도면·시안 첨부 견적 요청(지시서 13항). */

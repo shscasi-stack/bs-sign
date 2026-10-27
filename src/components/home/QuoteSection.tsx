@@ -9,7 +9,7 @@ const CONTACTS = [
   {
     icon: HardDriveIcon,
     label: '웹하드 파일 전달',
-    value: 'ID: bs9291 / PW: 9291',
+    value: '계정은 전화로 안내드려요',
     href: 'https://only.webhard.co.kr/login',
   },
 ];
