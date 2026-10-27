@@ -62,7 +62,33 @@ export default async function CategoryPage({ params }: PageProps) {
               </li>
             ))}
           </ul>
-          <ContactButtons className="mt-2" quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" />
+          {/* 다른 품목으로 바로 이동 — 지금 보고 있는 품목은 진하게 */}
+          <nav aria-label="다른 품목 보기" className="mt-2 flex flex-wrap items-center gap-2">
+            <span className="mr-1 text-sm font-bold" style={{ color: PALETTE.inkSub }}>
+              다른 품목
+            </span>
+            {CATEGORIES.map((c) =>
+              c.slug === category.slug ? (
+                <span
+                  key={c.slug}
+                  aria-current="page"
+                  className="rounded-full border-2 border-[#2B2840] bg-[#2B2840] px-4 py-2 text-sm font-bold text-white"
+                >
+                  {c.name}
+                </span>
+              ) : (
+                <Link
+                  key={c.slug}
+                  href={`/products/${c.slug}`}
+                  className="rounded-full border-2 border-white px-4 py-2 text-sm font-bold transition-transform hover:-translate-y-0.5"
+                  style={{ background: CATEGORY_PASTEL[c.slug] }}
+                >
+                  {c.name}
+                </Link>
+              )
+            )}
+          </nav>
+          <ContactButtons quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" />
         </div>
       </section>
 
