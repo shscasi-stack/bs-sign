@@ -89,15 +89,6 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     imageUrl: '/images/work/neon-ring-ceiling.jpg',
   },
   {
-    slug: 'work-acrylic-gold-mirror',
-    category: 'acrylic',
-    title: '골드 미러 아크릴',
-    description: '골드 미러 아크릴 레이저 커팅.',
-    material: '골드 미러 아크릴',
-    method: '레이저 커팅',
-    imageUrl: '/images/work/acrylic-gold-mirror.jpg',
-  },
-  {
     slug: 'work-acrylic-white-cnc',
     category: 'acrylic',
     title: '아크릴 문자 CNC',

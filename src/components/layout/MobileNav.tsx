@@ -33,6 +33,7 @@ export function MobileNav() {
           {NAV_ITEMS.map((item) => (
             <SheetClose
               key={item.href}
+              nativeButton={false}
               render={<Link href={item.href} />}
               className="rounded-md px-2 py-2.5 text-sm hover:bg-muted"
             >
@@ -42,6 +43,14 @@ export function MobileNav() {
         </nav>
         <SheetFooter>
           <SheetClose
+            nativeButton={false}
+            render={<Link href="/configurator" />}
+            className="rounded-md bg-[#FFD6E2] px-2 py-3 text-center text-sm font-bold text-[#2B2840] hover:bg-[#FFC2D6]"
+          >
+            LED네온 단가 계산
+          </SheetClose>
+          <SheetClose
+            nativeButton={false}
             render={<Link href={QUOTE_CTA.href} />}
             className="rounded-md bg-primary px-2 py-3 text-center text-sm font-semibold text-primary-foreground hover:bg-primary/90"
           >
