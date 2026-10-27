@@ -35,6 +35,8 @@ export interface PortfolioItem {
   size?: string;
   /** Set this to a path under /public (e.g. "/portfolio/led-neon-1.jpg") once a real photo is ready. */
   imageUrl?: string;
+  /** 세로로 긴 간판처럼 카드에 꽉 채우면 잘리는 사진은 'contain'으로 전체를 보여 준다. */
+  imageFit?: 'cover' | 'contain';
   /** 상세페이지 본문. 없으면 목록 카드만 노출되고 상세 링크가 생기지 않는다. */
   caseStudy?: CaseStudy;
 }
@@ -78,6 +80,52 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
     imageUrl: '/images/work/neon-ramen-v2.jpg',
+  },
+  {
+    slug: 'work-neon-life-wash',
+    category: 'led-neon',
+    title: '빨래방 캐릭터 로고',
+    description: '세탁기 캐릭터와 문구를 함께 넣은 빨래방 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-life-wash.jpg',
+  },
+  {
+    slug: 'work-neon-ice-cream',
+    category: 'led-neon',
+    title: '아이스크림 가게 로고',
+    description: '아이스크림 그림과 문구를 함께 넣은 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-ice-cream.jpg',
+  },
+  {
+    slug: 'work-neon-hair-salon',
+    category: 'led-neon',
+    title: '헤어살롱 간판',
+    description: '한글과 영문을 함께 넣은 헤어살롱 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-hair-salon.jpg',
+  },
+  {
+    slug: 'work-neon-chinese-vertical',
+    category: 'led-neon',
+    title: '중식당 세로 간판',
+    description: '한자 문구를 세로로 배치한 중식당 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-chinese-vertical.jpg',
+    imageFit: 'contain',
+  },
+  {
+    slug: 'work-neon-pharmacy',
+    category: 'led-neon',
+    title: '약국 원형 간판',
+    description: '원형 투명 배면에 제작한 약국 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-pharmacy.jpg',
   },
   {
     slug: 'led-neon-store-sign-case',
