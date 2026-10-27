@@ -4,8 +4,9 @@ import type { Metadata } from 'next';
 import { ArrowRightIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { FadeIn } from '@/components/motion/FadeIn';
+import { PortfolioCard } from '@/components/portfolio/PortfolioCard';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
-import { getProductsByCategory } from '@/lib/data/products';
+import { getPortfolioByCategory } from '@/lib/data/portfolio';
 import { QUOTE_CTA } from '@/lib/data/navigation';
 
 type PageProps = {
@@ -38,7 +39,7 @@ export default async function CategoryPage({ params }: PageProps) {
     notFound();
   }
 
-  const products = getProductsByCategory(category.slug);
+  const portfolio = getPortfolioByCategory(category.slug).filter((item) => item.imageUrl);
   const isLedNeon = category.slug === 'led-neon';
 
   return (
@@ -63,45 +64,32 @@ export default async function CategoryPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* 제품 그리드 */}
+      {/* 제작 사례 */}
       <section className="px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {products.map((product, index) => (
-              <FadeIn key={product.slug} delay={index * 0.06}>
-                <div className="flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm">
-                  {/* TODO: 제품 클로즈업 이미지 교체 — /public/images/product-{slug}.jpg
-                      (측면 두께·절단면·소재 질감이 보이는 컷) */}
-                  <div
-                    className={`flex h-40 items-center justify-center bg-gradient-to-br ${category.gradientClassName}`}
-                  >
-                    <category.icon className="size-9 text-white/90" />
-                  </div>
-                  <div className="flex flex-1 flex-col gap-3 p-5">
-                    <h2 className="font-heading text-lg font-semibold">{product.name}</h2>
-                    <p className="flex-1 text-sm leading-relaxed text-neutral-600">
-                      {product.description}
-                    </p>
-                    <dl className="grid grid-cols-2 gap-2 border-t border-neutral-200 pt-3 text-xs">
-                      <div>
-                        <dt className="text-neutral-400">소재</dt>
-                        <dd className="mt-0.5 text-neutral-700">{product.material}</dd>
-                      </div>
-                      <div>
-                        <dt className="text-neutral-400">가공 방식</dt>
-                        <dd className="mt-0.5 text-neutral-700">{product.method}</dd>
-                      </div>
-                    </dl>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
+          <FadeIn>
+            <h2 className="text-2xl font-bold">{category.name} 제작 사례</h2>
+          </FadeIn>
+          {portfolio.length > 0 ? (
+            <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+              {portfolio.map((item, index) => (
+                <FadeIn key={item.slug} delay={index * 0.06}>
+                  <PortfolioCard item={item} category={category} />
+                </FadeIn>
+              ))}
+            </div>
+          ) : (
+            <p className="mt-6 rounded-xl border border-dashed border-neutral-300 px-6 py-12 text-center text-neutral-500">
+              {category.name} 작업 사진을 준비하고 있어요.
+              <br />
+              제작 가능 여부는 도면·시안을 보내주시면 바로 안내드려요.
+            </p>
+          )}
         </div>
       </section>
 
       {/* 카테고리별 CTA */}
-      <section id="contact" className="border-t border-neutral-200 bg-white shadow-sm">
+      <section id="contact" className="border-t border-neutral-200 bg-ink-light">
         <div className="mx-auto flex max-w-3xl flex-col items-center gap-4 px-4 py-16 text-center">
           <h2 className="text-xl font-bold sm:text-2xl">{category.name} 제작을 문의하세요</h2>
           <p className="text-neutral-600">

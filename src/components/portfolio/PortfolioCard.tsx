@@ -21,7 +21,14 @@ export function PortfolioCard({ item, category }: PortfolioCardProps) {
     <div className="flex h-full flex-col overflow-hidden rounded-xl border border-neutral-200 bg-white shadow-sm transition-shadow group-hover:shadow-lg">
       {item.imageUrl ? (
         <div className="relative h-44 w-full">
-          <Image src={item.imageUrl} alt={item.title} fill className="object-cover" />
+          <Image
+            src={item.imageUrl}
+            alt={item.title}
+            fill
+            quality={90}
+            sizes="(min-width: 1024px) 380px, (min-width: 640px) 50vw, 100vw"
+            className="object-cover"
+          />
         </div>
       ) : (
         // TODO: 제작 사례 실제 사진 교체 — /public/portfolio/{slug}.jpg

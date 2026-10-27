@@ -18,22 +18,40 @@ const PALETTE = {
 } as const;
 
 const PHONE = '010-9804-8285';
-/** 카톡 오픈채팅 주소가 정해지면 여기에 넣는다. 비어 있으면 온라인 견적 폼으로 보낸다. */
-const KAKAO_OPENCHAT_URL = '';
+/** 카카오톡 채널/오픈채팅 주소. 비어 있으면 카카오톡 버튼을 숨긴다. */
+const KAKAO_URL = '';
 
-function PrimaryContact({ className = '' }: { className?: string }) {
-  const base = `inline-flex items-center justify-center rounded-full px-7 py-4 text-base font-bold sm:text-lg ${className}`;
-  if (KAKAO_OPENCHAT_URL) {
-    return (
-      <a href={KAKAO_OPENCHAT_URL} target="_blank" rel="noopener noreferrer" className={base}>
-        카톡으로 시안 보내기
-      </a>
-    );
-  }
+const BUTTON = 'inline-flex items-center justify-center rounded-full px-7 py-4 text-base font-bold sm:text-lg';
+
+/** 도면·시안 견적 → 카카오톡 → 전화 순서의 문의 버튼 줄. */
+function ContactButtons({
+  quoteClassName,
+  phoneClassName,
+  className = '',
+}: {
+  quoteClassName: string;
+  phoneClassName: string;
+  className?: string;
+}) {
   return (
-    <Link href="/quote" className={base}>
-      도면·시안 보내고 견적받기
-    </Link>
+    <div className={`flex flex-wrap gap-3 ${className}`}>
+      <Link href="/quote" className={`${BUTTON} ${quoteClassName}`}>
+        도면·시안 보내고 견적받기
+      </Link>
+      {KAKAO_URL && (
+        <a
+          href={KAKAO_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${BUTTON} bg-[#FEE500] text-[#191919]`}
+        >
+          카카오톡 문의
+        </a>
+      )}
+      <a href={`tel:${PHONE}`} className={`${BUTTON} ${phoneClassName}`}>
+        {PHONE}
+      </a>
+    </div>
   );
 }
 
@@ -83,15 +101,7 @@ export function KHome() {
               부천 2대째 34년. LED네온 · 스카시 · 아크릴 · 포맥스를 보통 1~3일이면 완성품으로
               보내드려요.
             </p>
-            <div className="flex flex-wrap gap-3">
-              <PrimaryContact className="bg-[#2B2840] text-white" />
-              <a
-                href={`tel:${PHONE}`}
-                className="inline-flex items-center justify-center rounded-full bg-white px-7 py-4 text-base font-bold sm:text-lg"
-              >
-                {PHONE}
-              </a>
-            </div>
+            <ContactButtons quoteClassName="bg-[#2B2840] text-white" phoneClassName="bg-white" />
           </div>
 
           <div className="relative mx-auto h-[360px] w-full max-w-md sm:h-[440px] lg:mx-0 lg:flex-1">
@@ -192,15 +202,11 @@ export function KHome() {
           <p className="text-base" style={{ color: PALETTE.inkSub }}>
             AI · PDF · JPG · CAD 모두 받아요. 웹하드 계정은 전화로 안내드려요.
           </p>
-          <div className="flex flex-wrap justify-center gap-3">
-            <PrimaryContact className="bg-white text-[#2B2840]" />
-            <a
-              href={`tel:${PHONE}`}
-              className="inline-flex items-center justify-center rounded-full bg-[#2B2840] px-7 py-4 text-base font-bold text-white sm:text-lg"
-            >
-              {PHONE}
-            </a>
-          </div>
+          <ContactButtons
+            className="justify-center"
+            quoteClassName="bg-white text-[#2B2840]"
+            phoneClassName="bg-[#2B2840] text-white"
+          />
         </div>
       </section>
     </div>
