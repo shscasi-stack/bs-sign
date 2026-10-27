@@ -63,7 +63,7 @@ export function NeonPreview({
 
   if (!hasBoard) {
     return (
-      <div className="flex min-h-32 items-center justify-center rounded-lg bg-neutral-900 px-4 py-8">
+      <div className="flex min-h-32 items-center justify-center rounded-[28px] bg-neutral-900 px-4 py-8">
         <span className="text-center text-sm text-neutral-400">
           베이스판 가로/세로를 입력하면 미리보기가 표시됩니다
         </span>
@@ -93,7 +93,7 @@ export function NeonPreview({
   const scaleY = measured ? (intendedH / natural.h) * fit : 1;
 
   return (
-    <div className="flex items-center justify-center rounded-lg bg-neutral-900 p-4">
+    <div className="flex items-center justify-center rounded-[28px] bg-neutral-900 p-4">
       <svg
         viewBox={`0 0 ${boardWidthMm} ${boardHeightMm}`}
         className="h-auto w-full"

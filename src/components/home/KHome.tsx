@@ -19,9 +19,7 @@ const STATS = [
 const WORKS = [
   { src: '/images/work/neon-chicken.jpg', alt: '닭 캐릭터 LED네온', caption: '닭갈비집 캐릭터', bg: '#FFD6E2' },
   { src: '/images/work/neon-salad.jpg', alt: '샐러드 가게 LED네온', caption: '샐러드 가게 로고', bg: '#D4F2E6' },
-  { src: '/images/work/acrylic-white-cnc.jpg', alt: '흰 아크릴 문자 CNC 가공', caption: '아크릴 문자 CNC', bg: '#FFEBC2' },
   { src: '/images/work/neon-ramen.jpg', alt: '라면 가게 LED네온', caption: '라면 가게 로고', bg: '#E8E0FF' },
-  { src: '/images/work/neon-ring-ceiling.jpg', alt: '천장 원형 LED네온', caption: '원형 천장 네온', bg: '#FFE0D1' },
 ] as const;
 
 const ITEMS = [
