@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FONT_OPTIONS, SILICONE_COLORS } from '@/lib/pricing/pricing.constants';
 import type { LineTypeCode, TubeThicknessCode } from '@/lib/pricing/pricing.types';
 
@@ -10,6 +10,7 @@ interface NeonPreviewProps {
   siliconeColorCode: string;
   boardWidthMm: number;
   boardHeightMm: number;
+  /** 가격 계산용. 미리보기는 폰트 비율을 유지하고 세로로만 크기를 정한다. */
   textWidthMm: number;
   textHeightMm: number;
   tubeThickness: TubeThicknessCode;
@@ -21,12 +22,34 @@ const TUBE_THICKNESS_MM: Record<TubeThicknessCode, number> = {
   '12T': 12,
 };
 
-// Reference font size used only for measuring the text's natural bounds;
-// the glyphs are then scaled to exactly fill the requested text box.
+// Reference font size used only for measuring the text's ink bounds;
+// the glyphs are then scaled uniformly to the requested letter height.
 const REF_FONT = 100;
 
-// Generous mask region in the text's local units (text is centered on 0,0 at REF_FONT size).
+// Generous mask region in the text's local units (text origin at 0,0, REF_FONT size).
 const MASK_AREA = { x: -100000, y: -100000, width: 200000, height: 200000 };
+
+/** Ink bounds around the text origin (start anchor, alphabetic baseline), at REF_FONT size. */
+interface InkBox {
+  left: number;
+  right: number;
+  ascent: number;
+  descent: number;
+}
+
+function measureInk(text: string, fontSpec: string): InkBox | null {
+  const ctx = document.createElement('canvas').getContext('2d');
+  if (!ctx) return null;
+  ctx.font = fontSpec;
+  const m = ctx.measureText(text);
+  const box = {
+    left: m.actualBoundingBoxLeft,
+    right: m.actualBoundingBoxRight,
+    ascent: m.actualBoundingBoxAscent,
+    descent: m.actualBoundingBoxDescent,
+  };
+  return box.left + box.right > 0 && box.ascent + box.descent > 0 ? box : null;
+}
 
 export function NeonPreview({
   displayText,
@@ -34,7 +57,6 @@ export function NeonPreview({
   siliconeColorCode,
   boardWidthMm,
   boardHeightMm,
-  textWidthMm,
   textHeightMm,
   tubeThickness,
   lineType,
@@ -44,25 +66,29 @@ export function NeonPreview({
   const text = displayText.trim();
   const hasBoard = boardWidthMm > 0 && boardHeightMm > 0;
   const isDouble = lineType === 'double';
+  const fontSpec = `${isDouble ? 800 : 400} ${REF_FONT}px ${font?.cssFontFamily ?? 'sans-serif'}`;
 
-  const textRef = useRef<SVGTextElement>(null);
-  const [natural, setNatural] = useState<{ w: number; h: number } | null>(null);
+  // Measure the text's actual ink bounds (not the font's em box, which adds
+  // empty space above/below Latin caps) so it can be sized by real height.
+  // A measurement only counts for the text/font it was taken with.
+  const inkKey = `${fontSpec}|${text}`;
+  const [inkState, setInkState] = useState<{ key: string; box: InkBox | null } | null>(null);
+  const ink = text && hasBoard && inkState?.key === inkKey ? inkState.box : null;
 
-  // Measure the glyphs' natural bounding box (excludes stroke) so the text can
-  // be scaled to the requested box without squashing letters into each other.
   useEffect(() => {
-    const el = textRef.current;
-    if (!el || !text) {
-      setNatural(null);
-      return;
-    }
-    try {
-      const bb = el.getBBox();
-      setNatural(bb.width > 0 && bb.height > 0 ? { w: bb.width, h: bb.height } : null);
-    } catch {
-      setNatural(null);
-    }
-  }, [text, fontFamily, hasBoard, isDouble]);
+    if (!text || !hasBoard) return;
+    let cancelled = false;
+    const measure = () => {
+      if (!cancelled) setInkState({ key: inkKey, box: measureInk(text, fontSpec) });
+    };
+    const frame = requestAnimationFrame(measure);
+    // Web fonts may finish loading after the first measurement.
+    document.fonts?.load(fontSpec, text).then(measure, () => {});
+    return () => {
+      cancelled = true;
+      cancelAnimationFrame(frame);
+    };
+  }, [text, fontSpec, hasBoard, inkKey]);
 
   if (!hasBoard) {
     return (
@@ -83,30 +109,28 @@ export function NeonPreview({
   const cx = boardWidthMm / 2;
   const cy = boardHeightMm / 2;
 
-  // 글씨 가로/세로 is the size of ONE letter. The whole word is therefore
-  // letterCount letters wide at that per-letter proportion, then scaled down
-  // uniformly to sit on the board (never squashing letters together).
-  const letterCount = Math.max([...text].filter((c) => !/\s/.test(c)).length, 1);
-  const perLetterW = textWidthMm > 0 ? textWidthMm : boardHeightMm * 0.25;
-  const perLetterH = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
-  const intendedW = letterCount * perLetterW;
-  const intendedH = perLetterH;
-  const fit = Math.min((boardWidthMm * 0.92) / intendedW, (boardHeightMm * 0.92) / intendedH, 1);
-
-  const measured = natural !== null;
-  const scaleX = measured ? (intendedW / natural.w) * fit : 1;
-  const scaleY = measured ? (intendedH / natural.h) * fit : 1;
+  // 글씨 세로 sets the size; letters keep the font's own proportions. Stretching
+  // them into a 가로×세로 box made Latin letters (narrower than Hangul) look
+  // flattened. Then shrink uniformly if needed to sit on the board.
+  const measured = ink !== null;
+  const inkW = measured ? ink.left + ink.right : 1;
+  const inkH = measured ? ink.ascent + ink.descent : 1;
+  const targetH = textHeightMm > 0 ? textHeightMm : boardHeightMm * 0.25;
+  const scale = measured
+    ? Math.min(targetH / inkH, (boardWidthMm * 0.92) / inkW, (boardHeightMm * 0.92) / inkH)
+    : 1;
+  // Centre of the ink box relative to the text origin (start / alphabetic baseline).
+  const inkCx = measured ? (ink.right - ink.left) / 2 : 0;
+  const inkCy = measured ? (ink.descent - ink.ascent) / 2 : 0;
   // Tube width in the text's local units, so 6T/12T reads at real mm scale
   // relative to the letters (the board viewBox is in mm).
-  const tubeLocal = tubeMm / Math.sqrt(scaleX * scaleY);
+  const tubeLocal = tubeMm / scale;
 
   // 복선(double): a heavy glyph outlined by the tube, leaving the letter's
   // center hollow — the tube runs around each letter like a real 복선 sign.
   const textProps = {
     x: 0,
     y: 0,
-    textAnchor: 'middle' as const,
-    dominantBaseline: 'central' as const,
     fontSize: REF_FONT,
     fontWeight: isDouble ? 800 : undefined,
     strokeLinejoin: 'round' as const,
@@ -153,7 +177,7 @@ export function NeonPreview({
           // Glow filter is applied outside the scale so blur stays consistent.
           <g filter="url(#neon-glow)">
             <g
-              transform={`translate(${cx} ${cy}) scale(${scaleX} ${scaleY})`}
+              transform={`translate(${cx} ${cy}) scale(${scale}) translate(${-inkCx} ${-inkCy})`}
               style={{ visibility: measured ? 'visible' : 'hidden' }}
             >
               {isDouble ? (
@@ -177,7 +201,6 @@ export function NeonPreview({
                     </mask>
                   </defs>
                   <text
-                    ref={textRef}
                     {...textProps}
                     fill="none"
                     stroke={hex}
@@ -201,7 +224,7 @@ export function NeonPreview({
                 </>
               ) : (
                 // 단선(single): filled solid glyph reads as one lit shape.
-                <text ref={textRef} {...textProps} fill={hex} stroke="none">
+                <text {...textProps} fill={hex} stroke="none">
                   {text}
                 </text>
               )}
