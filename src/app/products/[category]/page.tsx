@@ -1,8 +1,8 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ContactButtons } from '@/components/home/ContactButtons';
+import { WorkCard } from '@/components/portfolio/WorkCard';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
 import { CARD_PASTELS, CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
@@ -72,28 +72,11 @@ export default async function CategoryPage({ params }: PageProps) {
           {portfolio.length > 0 ? (
             <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {portfolio.map((item, index) => (
-                <figure
+                <WorkCard
                   key={item.slug}
-                  className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5"
-                  style={{ background: CARD_PASTELS[index % CARD_PASTELS.length] }}
-                >
-                  <div className="relative h-[250px] overflow-hidden rounded-[22px]">
-                    <Image
-                      src={item.imageUrl!}
-                      alt={item.title}
-                      fill
-                      quality={90}
-                      sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
-                      className="object-cover"
-                    />
-                  </div>
-                  <figcaption className="flex flex-col gap-1 px-2 pb-1.5">
-                    <span className="text-xl font-extrabold">{item.title}</span>
-                    <span className="text-sm" style={{ color: PALETTE.inkSub }}>
-                      {item.material} · {item.method}
-                    </span>
-                  </figcaption>
-                </figure>
+                  item={item}
+                  background={CARD_PASTELS[index % CARD_PASTELS.length]}
+                />
               ))}
             </div>
           ) : (

@@ -1,8 +1,10 @@
 import type { Metadata } from 'next';
-import { PortfolioCard } from '@/components/portfolio/PortfolioCard';
-import { FadeIn } from '@/components/motion/FadeIn';
+import Link from 'next/link';
+import { ContactButtons } from '@/components/home/ContactButtons';
+import { WorkCard } from '@/components/portfolio/WorkCard';
 import { CATEGORIES } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
+import { CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
 
 export const metadata: Metadata = {
   title: '제작 사례 | 백송사인',
@@ -10,46 +12,85 @@ export const metadata: Metadata = {
 };
 
 export default function PortfolioPage() {
+  const allGroups = CATEGORIES.map((category) => ({
+    category,
+    items: getPortfolioByCategory(category.slug).filter((item) => item.imageUrl),
+  }));
+  const groups = allGroups.filter((g) => g.items.length > 0);
+  const pending = allGroups.filter((g) => g.items.length === 0).map((g) => g.category);
+
   return (
-    <main className="flex flex-1 flex-col bg-white text-neutral-900">
-      <section className="border-b border-neutral-200 bg-ink-light px-4 py-16 text-center">
-        <FadeIn>
-          <p className="text-xs font-semibold tracking-[0.2em] text-point">PORTFOLIO</p>
-          <h1 className="mt-3 text-3xl font-bold">제작 사례</h1>
-          <p className="mt-3 text-neutral-600">
-            백송사인이 제작한 다양한 사인물과 가공 결과물을 확인해보세요.
+    <main className="flex flex-1 flex-col" style={{ color: PALETTE.ink }}>
+      <section style={{ background: PALETTE.band }}>
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 pt-14 pb-12 sm:px-6">
+          <h1 className="text-5xl leading-[1.15] font-extrabold tracking-tight sm:text-6xl">제작 사례</h1>
+          <p className="max-w-xl text-lg leading-relaxed font-medium" style={{ color: PALETTE.inkSub }}>
+            백송사인이 직접 만든 작업들이에요.
           </p>
-        </FadeIn>
+          <nav className="flex flex-wrap gap-2">
+            {allGroups.map(({ category, items }) => (
+              <a
+                key={category.slug}
+                href={items.length > 0 ? `#${category.slug}` : `/products/${category.slug}`}
+                className="rounded-full px-4 py-2 text-sm font-bold"
+                style={{ background: CATEGORY_PASTEL[category.slug] }}
+              >
+                {category.name}
+              </a>
+            ))}
+          </nav>
+        </div>
       </section>
 
-      {CATEGORIES.map((category) => {
-        const items = getPortfolioByCategory(category.slug);
-        if (items.length === 0) return null;
-
-        return (
-          <section key={category.slug} className="border-b border-neutral-200 px-4 py-14 last:border-b-0">
-            <div className="mx-auto max-w-6xl">
-              <FadeIn>
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`flex size-8 items-center justify-center rounded-lg bg-gradient-to-br text-white ${category.gradientClassName}`}
-                  >
-                    <category.icon className="size-4" />
-                  </div>
-                  <h2 className="text-xl font-bold">{category.name}</h2>
-                </div>
-              </FadeIn>
-              <div className="mt-6 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((item, index) => (
-                  <FadeIn key={item.slug} delay={index * 0.06}>
-                    <PortfolioCard item={item} category={category} />
-                  </FadeIn>
+      <div style={{ background: PALETTE.soft }}>
+        {groups.map(({ category, items }) => (
+          <section key={category.slug} id={category.slug} className="scroll-mt-20">
+            <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 py-12 sm:px-6">
+              <div className="flex flex-wrap items-baseline justify-between gap-3">
+                <h2 className="text-3xl font-extrabold tracking-tight sm:text-4xl">{category.name}</h2>
+                <Link
+                  href={`/products/${category.slug}`}
+                  className="text-base font-bold underline underline-offset-4"
+                >
+                  {category.name} 자세히 보기 →
+                </Link>
+              </div>
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                {items.map((item) => (
+                  <WorkCard key={item.slug} item={item} background={CATEGORY_PASTEL[category.slug]} />
                 ))}
               </div>
             </div>
           </section>
-        );
-      })}
+        ))}
+
+        {pending.length > 0 && (
+          <div className="mx-auto max-w-6xl px-4 pb-14 sm:px-6">
+            <p className="rounded-[32px] bg-white px-6 py-8 text-center text-lg font-medium">
+              {pending.map((c) => c.name).join(' · ')} 작업 사진은 준비하고 있어요.
+              <br />
+              <span className="text-base" style={{ color: PALETTE.inkSub }}>
+                제작 가능 여부는 도면·시안을 보내주시면 바로 안내드려요.
+              </span>
+            </p>
+          </div>
+        )}
+      </div>
+
+      <section style={{ background: PALETTE.cta }}>
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-4 py-20 text-center sm:px-6">
+          <h2 className="text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl">
+            사진만 보내주세요,
+            <br />
+            나머진 저희가!
+          </h2>
+          <ContactButtons
+            className="justify-center"
+            quoteClassName="bg-white text-[#2B2840]"
+            phoneClassName="bg-[#2B2840] text-white"
+          />
+        </div>
+      </section>
     </main>
   );
 }
