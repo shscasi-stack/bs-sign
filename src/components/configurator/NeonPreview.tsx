@@ -59,7 +59,7 @@ export function NeonPreview({
     } catch {
       setNatural(null);
     }
-  }, [text, fontFamily, hasBoard]);
+  }, [text, fontFamily, hasBoard, isDouble]);
 
   if (!hasBoard) {
     return (
@@ -73,7 +73,9 @@ export function NeonPreview({
 
   // viewBox is in real mm, so board aspect ratio and tube width are accurate.
   const tubeMm = TUBE_THICKNESS_MM[tubeThickness];
-  const glowMm = Math.max(tubeMm * 0.3, 1.2);
+  // 복선 outlines are thin lines with dark space between, so they take a wider
+  // halo without merging — closer to how a lit 복선 sign photographs.
+  const glowMm = isDouble ? Math.max(tubeMm * 0.7, 2.5) : Math.max(tubeMm * 0.3, 1.2);
   const cornerMm = Math.min(boardWidthMm, boardHeightMm) * 0.03;
   const cx = boardWidthMm / 2;
   const cy = boardHeightMm / 2;
@@ -91,6 +93,23 @@ export function NeonPreview({
   const measured = natural !== null;
   const scaleX = measured ? (intendedW / natural.w) * fit : 1;
   const scaleY = measured ? (intendedH / natural.h) * fit : 1;
+  // Tube width in the text's local units, so 6T/12T reads at real mm scale
+  // relative to the letters (the board viewBox is in mm).
+  const tubeLocal = tubeMm / Math.sqrt(scaleX * scaleY);
+
+  // 복선(double): a heavy glyph outlined by the tube, leaving the letter's
+  // center hollow — the tube runs around each letter like a real 복선 sign.
+  const textProps = {
+    x: 0,
+    y: 0,
+    textAnchor: 'middle' as const,
+    dominantBaseline: 'central' as const,
+    fontSize: REF_FONT,
+    fontWeight: isDouble ? 800 : undefined,
+    strokeLinejoin: 'round' as const,
+    strokeLinecap: 'round' as const,
+    style: { fontFamily: font?.cssFontFamily },
+  };
 
   return (
     <div className="flex items-center justify-center rounded-[28px] bg-neutral-900 p-4">
@@ -107,7 +126,7 @@ export function NeonPreview({
           <filter id="neon-glow" x="-30%" y="-30%" width="160%" height="160%">
             <feGaussianBlur stdDeviation={glowMm} result="blur" />
             <feComponentTransfer in="blur" result="softBlur">
-              <feFuncA type="linear" slope="0.6" />
+              <feFuncA type="linear" slope={isDouble ? 0.9 : 0.6} />
             </feComponentTransfer>
             <feMerge>
               <feMergeNode in="softBlur" />
@@ -134,26 +153,29 @@ export function NeonPreview({
               transform={`translate(${cx} ${cy}) scale(${scaleX} ${scaleY})`}
               style={{ visibility: measured ? 'visible' : 'hidden' }}
             >
-              <text
-                ref={textRef}
-                x={0}
-                y={0}
-                textAnchor="middle"
-                dominantBaseline="central"
-                fontSize={REF_FONT}
+              {isDouble ? (
+                <>
+                  <text ref={textRef} {...textProps} fill="none" stroke={hex} strokeWidth={tubeLocal}>
+                    {text}
+                  </text>
+                  {/* Brighter core along the tube, like lit silicone neon. */}
+                  <text
+                    {...textProps}
+                    aria-hidden
+                    fill="none"
+                    stroke="#ffffff"
+                    strokeOpacity={0.5}
+                    strokeWidth={tubeLocal * 0.3}
+                  >
+                    {text}
+                  </text>
+                </>
+              ) : (
                 // 단선(single): filled solid glyph reads as one lit shape.
-                // 복선(double): hollow outline reads as two edges of the tube.
-                // Both stay normal weight — bold made dense Hangul outlines collide.
-                fill={isDouble ? 'none' : hex}
-                stroke={isDouble ? hex : 'none'}
-                strokeWidth={isDouble ? tubeMm : 0}
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                vectorEffect="non-scaling-stroke"
-                style={{ fontFamily: font?.cssFontFamily }}
-              >
-                {text}
-              </text>
+                <text ref={textRef} {...textProps} fill={hex} stroke="none">
+                  {text}
+                </text>
+              )}
             </g>
           </g>
         )}
