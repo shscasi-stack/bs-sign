@@ -42,16 +42,20 @@ describe('NeonPreview', () => {
     expect(html).toContain('stroke="none"'); // no outline → not a double-line look
   });
 
-  it('renders 복선 as a hollow stroke-only outline (the two tube edges)', () => {
+  it('renders 복선 as a hollow outline with the glyph interior masked out', () => {
     const html = render({ lineType: 'double', tubeThickness: '12T' });
 
     expect(html).toContain('fill="none"'); // outline only
     expect(html).toContain('stroke="#e53935"');
-    expect(html).toContain('stroke-width="12"'); // tube thickness in real mm
+    // Overlapping contours (e.g. 고) are merged by masking the glyph interior,
+    // so only the outer edge of the letter keeps a tube.
+    expect(html).toContain('mask="url(#neon-outside)"');
   });
 
   it('maps tube thickness to the outline stroke width for 복선', () => {
-    expect(render({ lineType: 'double', tubeThickness: '6T' })).toContain('stroke-width="6"');
-    expect(render({ lineType: 'double', tubeThickness: '12T' })).toContain('stroke-width="12"');
+    // Stroke is drawn at twice the tube and half of it is masked away, so the
+    // visible tube equals the real thickness in mm.
+    expect(render({ lineType: 'double', tubeThickness: '6T' })).toContain('stroke-width="12"');
+    expect(render({ lineType: 'double', tubeThickness: '12T' })).toContain('stroke-width="24"');
   });
 });

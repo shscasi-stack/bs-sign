@@ -104,8 +104,14 @@ describe('calculateNeonPrice', () => {
     expect(result.warnings).toEqual([]);
   });
 
-  it('warns when requested size exceeds the max dimensions', () => {
+  it('warns that the board must be split when it exceeds one 1200×2400 board', () => {
     const result = calculateNeonPrice({ ...baseInput, widthMm: 1300, heightMm: 2500 }, TUBE_LENGTH_MM);
-    expect(result.warnings.some((w) => w.includes('초과'))).toBe(true);
+    // 1300 → 2 across, 2500 → 2 down
+    expect(result.warnings.some((w) => w.includes('4조각'))).toBe(true);
+  });
+
+  it('does not warn about splitting at exactly one full board', () => {
+    const result = calculateNeonPrice({ ...baseInput, widthMm: 1200, heightMm: 2400 }, TUBE_LENGTH_MM);
+    expect(result.warnings.some((w) => w.includes('조각'))).toBe(false);
   });
 });
