@@ -25,6 +25,9 @@ const TUBE_THICKNESS_MM: Record<TubeThicknessCode, number> = {
 // the glyphs are then scaled to exactly fill the requested text box.
 const REF_FONT = 100;
 
+// Generous mask region in the text's local units (text is centered on 0,0 at REF_FONT size).
+const MASK_AREA = { x: -100000, y: -100000, width: 200000, height: 200000 };
+
 export function NeonPreview({
   displayText,
   fontFamily,
@@ -155,17 +158,43 @@ export function NeonPreview({
             >
               {isDouble ? (
                 <>
-                  <text ref={textRef} {...textProps} fill="none" stroke={hex} strokeWidth={tubeLocal}>
+                  {/* Fonts build glyphs from overlapping contours (e.g. 고), so a
+                      plain stroke draws the overlaps inside the letter. Instead the
+                      stroke is drawn at double width and the glyph interior is
+                      masked away, leaving one tube along the merged outer edge. */}
+                  <defs>
+                    <mask id="neon-outside" maskUnits="userSpaceOnUse" {...MASK_AREA}>
+                      <rect {...MASK_AREA} fill="white" />
+                      <text {...textProps} fill="black">
+                        {text}
+                      </text>
+                    </mask>
+                    <mask id="neon-core" maskUnits="userSpaceOnUse" {...MASK_AREA}>
+                      <rect {...MASK_AREA} fill="white" />
+                      <text {...textProps} fill="black" stroke="black" strokeWidth={tubeLocal * 0.7}>
+                        {text}
+                      </text>
+                    </mask>
+                  </defs>
+                  <text
+                    ref={textRef}
+                    {...textProps}
+                    fill="none"
+                    stroke={hex}
+                    strokeWidth={tubeLocal * 2}
+                    mask="url(#neon-outside)"
+                  >
                     {text}
                   </text>
-                  {/* Brighter core along the tube, like lit silicone neon. */}
+                  {/* Brighter core down the middle of the tube, like lit silicone neon. */}
                   <text
                     {...textProps}
                     aria-hidden
                     fill="none"
                     stroke="#ffffff"
                     strokeOpacity={0.5}
-                    strokeWidth={tubeLocal * 0.3}
+                    strokeWidth={tubeLocal * 1.3}
+                    mask="url(#neon-core)"
                   >
                     {text}
                   </text>

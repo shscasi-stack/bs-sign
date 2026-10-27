@@ -1,4 +1,4 @@
-import { calculateBasePanels } from './calculateBasePanels';
+import { calculateBasePanels, countBoardPieces } from './calculateBasePanels';
 import {
   ACCESSORY_OPTIONS,
   BASE_BOARD_PRICE_PER_PANEL_KRW,
@@ -32,8 +32,11 @@ export function calculateNeonPrice(
 ): NeonPriceBreakdown {
   const warnings: string[] = [];
 
-  if (input.widthMm > MAX_WIDTH_MM || input.heightMm > MAX_HEIGHT_MM) {
-    warnings.push(`요청하신 크기가 최대 ${MAX_WIDTH_MM}×${MAX_HEIGHT_MM}mm를 초과했습니다.`);
+  const boardPieces = countBoardPieces(input.widthMm, input.heightMm);
+  if (boardPieces > 1) {
+    warnings.push(
+      `판 한 장은 최대 가로 ${MAX_WIDTH_MM.toLocaleString('ko-KR')} × 세로 ${MAX_HEIGHT_MM.toLocaleString('ko-KR')}mm예요. 이 크기는 판을 ${boardPieces}조각으로 나눠 이어 붙여야 해서 이음매가 생길 수 있어요.`
+    );
   }
 
   const basePanelCount = calculateBasePanels(input.widthMm, input.heightMm);
