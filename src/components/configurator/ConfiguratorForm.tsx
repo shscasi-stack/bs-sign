@@ -122,7 +122,7 @@ export function ConfiguratorForm() {
           tubeThickness={form.tubeThickness}
           lineType={form.lineType}
         />
-        <LivePricePreview breakdown={breakdown} isStale={isStale} />
+        <LivePricePreview breakdown={breakdown} isStale={isStale} isOutdoor={form.isOutdoor} />
       </div>
     </div>
   );

@@ -7,9 +7,10 @@ import { cn } from '@/lib/utils';
 interface LivePricePreviewProps {
   breakdown: NeonPriceBreakdown | null;
   isStale: boolean;
+  isOutdoor: boolean;
 }
 
-export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) {
+export function LivePricePreview({ breakdown, isStale, isOutdoor }: LivePricePreviewProps) {
   return (
     <div
       className={cn('sticky top-20 space-y-4 rounded-[32px] p-6 transition-opacity', isStale && 'opacity-70')}
@@ -29,8 +30,14 @@ export function LivePricePreview({ breakdown, isStale }: LivePricePreviewProps) 
             {breakdown.total.toLocaleString('ko-KR')}
             <span className="text-2xl">원</span>
           </div>
+          {breakdown.tubeLengthM === 0 && (
+            <p className="rounded-2xl bg-white px-4 py-3 text-sm leading-relaxed font-medium">
+              👉 <strong>글씨 가로·세로</strong>를 넣어 주세요. 실리콘 튜브
+              {isOutdoor ? '와 실외 방수 처리' : ''} 비용은 글씨 크기로 계산돼요.
+            </p>
+          )}
           <div className="rounded-[22px] bg-white px-4 py-2">
-            <PriceBreakdownTable breakdown={breakdown} />
+            <PriceBreakdownTable breakdown={breakdown} isOutdoor={isOutdoor} />
           </div>
           {breakdown.warnings.map((warning) => (
             <p

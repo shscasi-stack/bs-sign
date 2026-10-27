@@ -12,9 +12,11 @@ function accessoryLabel(code: string): string {
 
 interface PriceBreakdownTableProps {
   breakdown: NeonPriceBreakdown;
+  /** 실외면 방수 처리 줄을 0원이어도 보여 줘서 적용됐음을 알린다. */
+  isOutdoor?: boolean;
 }
 
-export function PriceBreakdownTable({ breakdown }: PriceBreakdownTableProps) {
+export function PriceBreakdownTable({ breakdown, isOutdoor = false }: PriceBreakdownTableProps) {
   return (
     <Table>
       <TableBody>
@@ -32,9 +34,9 @@ export function PriceBreakdownTable({ breakdown }: PriceBreakdownTableProps) {
           </TableCell>
           <TableCell className="text-right">{formatKrw(breakdown.tubeCost)}</TableCell>
         </TableRow>
-        {breakdown.waterproofCost > 0 && (
+        {(isOutdoor || breakdown.waterproofCost > 0) && (
           <TableRow>
-            <TableCell className="text-muted-foreground">방수 처리</TableCell>
+            <TableCell className="text-muted-foreground">실외 방수 처리</TableCell>
             <TableCell className="text-right">{formatKrw(breakdown.waterproofCost)}</TableCell>
           </TableRow>
         )}

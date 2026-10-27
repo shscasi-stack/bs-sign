@@ -40,7 +40,7 @@ export function TextFontInput({
         />
       </div>
       <div className="space-y-1.5">
-        <Label htmlFor="font-family">폰트</Label>
+        <Label htmlFor="font-family">폰트 (예시)</Label>
         <Select value={fontFamily} onValueChange={(v) => v && onFontFamilyChange(v)}>
           <SelectTrigger id="font-family" className="w-full">
             <SelectValue />
@@ -53,6 +53,10 @@ export function TextFontInput({
             ))}
           </SelectContent>
         </Select>
+        <p className="rounded-2xl bg-[#D4F2E6] px-4 py-3 text-sm leading-relaxed text-[#2B2840]">
+          여기 있는 폰트는 <strong>예시</strong>예요. 목록에 없는 폰트나 로고·그림도 가능해요.
+          저희가 <strong>직접 그려서 제작</strong>하니까, 원하는 시안을 견적 요청할 때 보내주세요.
+        </p>
       </div>
       <div className="grid grid-cols-2 gap-4">
         <div className="space-y-1.5">
