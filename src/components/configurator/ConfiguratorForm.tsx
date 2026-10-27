@@ -25,8 +25,11 @@ const initialState: NeonPriceInput = {
   isOutdoor: false,
   displayText: 'OPEN',
   fontFamily: FONT_OPTIONS[0].code,
-  textWidthMm: 0,
-  textHeightMm: 0,
+  // Tube length (and so tube + outdoor waterproof cost) comes from the letter
+  // size; starting at 0 priced the sign with no neon at all. 10cm × 10cm is the
+  // base pricing unit, so start there and let the customer change it.
+  textWidthMm: 100,
+  textHeightMm: 100,
   accessoryQuantities: {},
 };
 
