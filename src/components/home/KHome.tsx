@@ -22,7 +22,7 @@ const STATS = [
 const WORKS = [
   { src: '/images/work/neon-chicken.jpg', alt: '닭 캐릭터 LED네온', caption: '닭갈비집 캐릭터', bg: '#FFD6E2' },
   { src: '/images/work/neon-salad.jpg', alt: '샐러드 가게 LED네온', caption: '샐러드 가게 로고', bg: '#D4F2E6' },
-  { src: '/images/work/neon-ramen.jpg', alt: '라면 가게 LED네온', caption: '라면 가게 로고', bg: '#E8E0FF' },
+  { src: '/images/work/neon-ramen-v2.jpg', alt: '라면 가게 LED네온', caption: '라면 가게 로고', bg: '#E8E0FF' },
 ] as const;
 
 const ITEMS = [

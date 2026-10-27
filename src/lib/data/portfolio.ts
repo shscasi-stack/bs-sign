@@ -77,7 +77,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '라면 가게 로고 LED네온.',
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
-    imageUrl: '/images/work/neon-ramen.jpg',
+    imageUrl: '/images/work/neon-ramen-v2.jpg',
   },
   {
     slug: 'led-neon-store-sign-case',
