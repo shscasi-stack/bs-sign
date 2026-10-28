@@ -40,6 +40,20 @@ const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?
     // very wide photo: show the large stands on the left rather than a thin strip
     focus: '12% 50%',
   },
+  {
+    src: '/images/work/neon-railway-goods-1.jpg',
+    alt: '동대구역 철도굿즈샵 스탠드형 LED네온',
+    caption: '동대구역 철도굿즈샵',
+    bg: '#D9E8FF',
+    containBg: 'linear-gradient(#585756, #2a2825)',
+  },
+  {
+    src: '/images/work/neon-yjfood.jpg',
+    alt: 'YJ FOOD 로고 LED네온',
+    caption: 'YJ FOOD 로고',
+    bg: '#E8E0FF',
+    containBg: 'linear-gradient(#0d110a, #0f120c)',
+  },
 ];
 
 const ITEMS = [
