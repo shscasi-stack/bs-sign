@@ -176,7 +176,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
   {
     slug: 'work-neon-samgyeopsal',
     category: 'led-neon',
-    title: '삼겹살집 간판 2종',
+    title: '삼겹살집 LED네온 2종',
     description: '돼지 캐릭터와 메뉴 문구를 함께 넣은 삼겹살집 LED네온 두 가지.',
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
