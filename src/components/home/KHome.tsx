@@ -24,18 +24,18 @@ const STATS = [
  * focus: 꽉 채워 자를 때 사진의 어느 쪽을 보여 줄지 (CSS object-position).
  */
 const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?: string; focus?: string }[] = [
-  { src: '/images/work/neon-spring-night.jpg', alt: '하트 문구 LED네온', caption: '하트 문구 네온', bg: '#FFD6E2' },
+  { src: '/images/work/neon-spring-night.jpg', alt: '설렘북나잇 LED네온', caption: '설렘북나잇', bg: '#FFD6E2' },
   {
     src: '/images/work/neon-cider-star.jpg',
-    alt: '음료 브랜드 별 로고 LED네온',
-    caption: '음료 브랜드 별 로고',
+    alt: '칠성사이다 제로 LED네온',
+    caption: '칠성사이다 제로',
     bg: '#D4F2E6',
     containBg: '#0c0b0c',
   },
   {
     src: '/images/work/formex-food-pop-stands.jpg',
-    alt: '식품 진열 POP 스탠드 (포맥스 돔보)',
-    caption: '식품 진열 POP 스탠드',
+    alt: '오뚜기 제품 진열 POP 스탠드 (포맥스 돔보)',
+    caption: '오뚜기',
     bg: '#FFEBC2',
     // very wide photo: show the large stands on the left rather than a thin strip
     focus: '12% 50%',
@@ -50,7 +50,7 @@ const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?
   {
     src: '/images/work/neon-yjfood.jpg',
     alt: 'YJ FOOD 로고 LED네온',
-    caption: 'YJ FOOD 로고',
+    caption: 'YJ FOOD',
     bg: '#E8E0FF',
     containBg: 'linear-gradient(#0d110a, #0f120c)',
   },
