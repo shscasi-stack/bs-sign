@@ -203,9 +203,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     description: '필기체 로고와 영문·한글 문자를 고무스카시로 정밀 컷팅한 행사용 입체 문자.',
     material: '고무스카시',
     method: '정밀 컷팅',
-    imageUrl: '/images/work/scasi-fashion-week.jpg',
-    imageFit: 'contain',
-    imageBg: '#d9d5cf',
+    imageUrl: '/images/work/scasi-fashion-week-original.jpg',
   },
   {
     slug: 'work-formex-hex-magnet',
