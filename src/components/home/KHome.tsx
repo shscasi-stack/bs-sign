@@ -19,11 +19,28 @@ const STATS = [
   { big: '시공은\n직접', small: '완성품으로 보내드려요, 설치는 직접 해주세요', compact: true },
 ] as const;
 
-const WORKS = [
-  { src: '/images/work/neon-chicken.jpg', alt: '닭 캐릭터 LED네온', caption: '닭갈비집 캐릭터', bg: '#FFD6E2' },
-  { src: '/images/work/neon-salad.jpg', alt: '샐러드 가게 LED네온', caption: '샐러드 가게 로고', bg: '#D4F2E6' },
-  { src: '/images/work/neon-ramen-v2.jpg', alt: '라면 가게 LED네온', caption: '라면 가게 로고', bg: '#E8E0FF' },
-] as const;
+/**
+ * containBg: 사진 전체를 보여 줄 때(잘리면 안 되는 사진) 남는 자리를 채울 배경.
+ * focus: 꽉 채워 자를 때 사진의 어느 쪽을 보여 줄지 (CSS object-position).
+ */
+const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?: string; focus?: string }[] = [
+  { src: '/images/work/neon-spring-night.jpg', alt: '하트 문구 LED네온', caption: '하트 문구 네온', bg: '#FFD6E2' },
+  {
+    src: '/images/work/neon-cider-star.jpg',
+    alt: '음료 브랜드 별 로고 LED네온',
+    caption: '음료 브랜드 별 로고',
+    bg: '#D4F2E6',
+    containBg: '#0c0b0c',
+  },
+  {
+    src: '/images/work/formex-food-pop-stands.jpg',
+    alt: '식품 진열 POP 스탠드 (포맥스 돔보)',
+    caption: '식품 진열 POP 스탠드',
+    bg: '#FFEBC2',
+    // very wide photo: show the large stands on the left rather than a thin strip
+    focus: '12% 50%',
+  },
+];
 
 const ITEMS = [
   { slug: 'rubber-scasi', name: '고무스카시', desc: '고무 + 알루미늄 입체 문자', bg: CATEGORY_PASTEL['rubber-scasi'] },
@@ -140,13 +157,18 @@ export function KHome() {
                   className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5 transition-transform duration-300 hover:-translate-y-1.5"
                   style={{ background: w.bg }}
                 >
-                  <div className="relative h-[250px] overflow-hidden rounded-[22px]">
+                  <div
+                    className="relative h-[250px] overflow-hidden rounded-[22px]"
+                    style={w.containBg ? { background: w.containBg } : undefined}
+                  >
                     <Image
                       src={w.src}
                       alt={w.alt}
                       fill
+                      quality={90}
                       sizes="(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw"
-                      className="object-cover transition-transform duration-500 hover:scale-105"
+                      className={`${w.containBg ? 'object-contain' : 'object-cover'} transition-transform duration-500 hover:scale-105`}
+                      style={w.focus ? { objectPosition: w.focus } : undefined}
                     />
                   </div>
                   <figcaption className="px-2 pb-1.5 text-xl font-extrabold">{w.caption}</figcaption>
