@@ -24,7 +24,7 @@ const STATS = [
  * focus: 꽉 채워 자를 때 사진의 어느 쪽을 보여 줄지 (CSS object-position).
  */
 const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?: string; focus?: string }[] = [
-  { src: '/images/work/neon-spring-night.jpg', alt: '설렘북나잇 LED네온', caption: '설렘북나잇', bg: '#FFD6E2' },
+  { src: '/images/work/neon-spring-night.jpg', alt: '서울시 설렘 북나잇 LED네온', caption: '서울시 설렘 북나잇', bg: '#FFD6E2' },
   {
     src: '/images/work/neon-cider-star.jpg',
     alt: '칠성사이다 제로 LED네온',
