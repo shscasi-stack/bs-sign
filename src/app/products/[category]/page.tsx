@@ -2,8 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { ContactButtons } from '@/components/home/ContactButtons';
-import { FadeIn } from '@/components/motion/FadeIn';
-import { WorkCard } from '@/components/portfolio/WorkCard';
+import { PagedWorkGrid } from '@/components/portfolio/PagedWorkGrid';
 import { CATEGORIES, getCategoryBySlug } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
 import { CARD_PASTELS, CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
@@ -97,13 +96,7 @@ export default async function CategoryPage({ params }: PageProps) {
         <div className="mx-auto flex max-w-6xl flex-col gap-8 px-4 py-20 sm:px-6">
           <h2 className="text-4xl font-extrabold tracking-tight sm:text-5xl">{category.name} 작업 사례</h2>
           {portfolio.length > 0 ? (
-            <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-              {portfolio.map((item, index) => (
-                <FadeIn key={item.slug} delay={(index % 3) * 0.12}>
-                  <WorkCard item={item} background={CARD_PASTELS[index % CARD_PASTELS.length]} />
-                </FadeIn>
-              ))}
-            </div>
+            <PagedWorkGrid items={portfolio} backgrounds={CARD_PASTELS} />
           ) : (
             <p className="rounded-[32px] bg-white px-6 py-14 text-center text-lg leading-relaxed font-medium">
               {category.name} 작업 사진을 준비하고 있어요.

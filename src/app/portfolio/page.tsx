@@ -1,8 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ContactButtons } from '@/components/home/ContactButtons';
-import { FadeIn } from '@/components/motion/FadeIn';
-import { WorkCard } from '@/components/portfolio/WorkCard';
+import { PagedWorkGrid } from '@/components/portfolio/PagedWorkGrid';
 import { CATEGORIES } from '@/lib/data/categories';
 import { getPortfolioByCategory } from '@/lib/data/portfolio';
 import { CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
@@ -56,13 +55,7 @@ export default function PortfolioPage() {
                   {category.name} 자세히 보기 →
                 </Link>
               </div>
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                {items.map((item, index) => (
-                  <FadeIn key={item.slug} delay={(index % 3) * 0.12}>
-                    <WorkCard item={item} background={CATEGORY_PASTEL[category.slug]} />
-                  </FadeIn>
-                ))}
-              </div>
+              <PagedWorkGrid items={items} backgrounds={[CATEGORY_PASTEL[category.slug]]} />
             </div>
           </section>
         ))}
