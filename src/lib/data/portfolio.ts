@@ -37,8 +37,12 @@ export interface PortfolioItem {
   imageUrl?: string;
   /** 세로로 긴 간판처럼 카드에 꽉 채우면 잘리는 사진은 'contain'으로 전체를 보여 준다. */
   imageFit?: 'cover' | 'contain';
-  /** 함께 보여 줄 두 번째 사진 (예: 가공 중 + 완성품). 있으면 카드에 두 장을 나란히 놓는다. */
+  /** 'contain'일 때 남는 자리를 채울 색. 사진 배경과 맞춘다(기본: 어두운 회색). */
+  imageBg?: string;
+  /** 함께 보여 줄 두 번째 사진 (예: 가공 중 + 완성품). 있으면 카드에 두 장을 함께 놓는다. */
   secondImageUrl?: string;
+  /** 두 장을 놓는 방향. 가로로 긴 간판 사진은 'rows'(위아래)가 잘 맞는다. 기본: 'columns'(좌우). */
+  pairLayout?: 'columns' | 'rows';
   /** 상세페이지 본문. 없으면 목록 카드만 노출되고 상세 링크가 생기지 않는다. */
   caseStudy?: CaseStudy;
 }
@@ -168,6 +172,40 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     method: '벤딩 제작',
     imageUrl: '/images/work/neon-ex-nihilo.jpg',
     imageFit: 'contain',
+  },
+  {
+    slug: 'work-neon-samgyeopsal',
+    category: 'led-neon',
+    title: '삼겹살집 간판 2종',
+    description: '돼지 캐릭터와 메뉴 문구를 함께 넣은 삼겹살집 LED네온 두 가지.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-samgyeopsal-1.jpg',
+    secondImageUrl: '/images/work/neon-samgyeopsal-2.jpg',
+    pairLayout: 'rows',
+    imageFit: 'contain',
+  },
+  {
+    slug: 'work-acrylic-child-center',
+    category: 'acrylic',
+    title: '아동센터 입체 로고',
+    description: '해와 아이 캐릭터, 영문·한글 문자를 아크릴로 재단하고 색을 입힌 입체 로고.',
+    material: '아크릴',
+    method: '컷팅 · 도장',
+    imageUrl: '/images/work/acrylic-child-center-logo.jpg',
+    imageFit: 'contain',
+    imageBg: '#dee1e4',
+  },
+  {
+    slug: 'work-scasi-fashion-week',
+    category: 'rubber-scasi',
+    title: '패션위크 입체 문자',
+    description: '필기체 로고와 영문·한글 문자를 고무스카시로 정밀 컷팅한 행사용 입체 문자.',
+    material: '고무스카시',
+    method: '정밀 컷팅',
+    imageUrl: '/images/work/scasi-fashion-week.jpg',
+    imageFit: 'contain',
+    imageBg: '#d9d5cf',
   },
   {
     slug: 'work-formex-hex-magnet',
