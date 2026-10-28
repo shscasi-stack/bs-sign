@@ -37,6 +37,8 @@ export interface PortfolioItem {
   imageUrl?: string;
   /** 세로로 긴 간판처럼 카드에 꽉 채우면 잘리는 사진은 'contain'으로 전체를 보여 준다. */
   imageFit?: 'cover' | 'contain';
+  /** 함께 보여 줄 두 번째 사진 (예: 가공 중 + 완성품). 있으면 카드에 두 장을 나란히 놓는다. */
+  secondImageUrl?: string;
   /** 상세페이지 본문. 없으면 목록 카드만 노출되고 상세 링크가 생기지 않는다. */
   caseStudy?: CaseStudy;
 }
@@ -126,6 +128,17 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
     imageUrl: '/images/work/neon-pharmacy.jpg',
+  },
+  {
+    slug: 'work-formex-hex-magnet',
+    category: 'formex',
+    title: '육각 자석 포맥스',
+    description: '백색 포맥스 5T를 CNC로 육각 재단하고 뒷면에 자석을 붙여 대량 제작.',
+    material: '백색 포맥스 5T',
+    method: 'CNC 재단 · 뒷면 자석 부착',
+    thickness: '5T',
+    imageUrl: '/images/work/formex-hex-magnet-cnc.jpg',
+    secondImageUrl: '/images/work/formex-hex-magnet-stack.jpg',
   },
   {
     slug: 'led-neon-store-sign-case',
