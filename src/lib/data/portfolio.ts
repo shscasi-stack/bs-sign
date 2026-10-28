@@ -37,12 +37,15 @@ export interface PortfolioItem {
   imageUrl?: string;
   /** 세로로 긴 간판처럼 카드에 꽉 채우면 잘리는 사진은 'contain'으로 전체를 보여 준다. */
   imageFit?: 'cover' | 'contain';
-  /** 'contain'일 때 남는 자리를 채울 색. 사진 배경과 맞춘다(기본: 어두운 회색). */
+  /** 'contain'일 때 남는 자리를 채울 CSS 배경(색 또는 그라데이션). 사진 가장자리와 맞춘다(기본: 어두운 회색). */
   imageBg?: string;
-  /** 함께 보여 줄 두 번째 사진 (예: 가공 중 + 완성품). 있으면 카드에 두 장을 함께 놓는다. */
-  secondImageUrl?: string;
-  /** 두 장을 놓는 방향. 가로로 긴 간판 사진은 'rows'(위아래)가 잘 맞는다. 기본: 'columns'(좌우). */
-  pairLayout?: 'columns' | 'rows';
+  /** 같은 카드에 함께 보여 줄 사진들 (예: 가공 중 + 완성품, 제작 + 설치). */
+  extraImageUrls?: string[];
+  /**
+   * 여러 장을 놓는 방식. 'columns' 좌우(기본), 'rows' 위아래(가로로 긴 간판에 적합),
+   * 'feature' 첫 사진을 왼쪽에 크게 두고 나머지를 오른쪽에 쌓는다.
+   */
+  photoLayout?: 'columns' | 'rows' | 'feature';
   /** 상세페이지 본문. 없으면 목록 카드만 노출되고 상세 링크가 생기지 않는다. */
   caseStudy?: CaseStudy;
 }
@@ -181,9 +184,93 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     material: 'LED 실리콘 네온',
     method: '벤딩 제작',
     imageUrl: '/images/work/neon-samgyeopsal-1.jpg',
-    secondImageUrl: '/images/work/neon-samgyeopsal-2.jpg',
-    pairLayout: 'rows',
+    extraImageUrls: ['/images/work/neon-samgyeopsal-2.jpg'],
+    photoLayout: 'rows',
     imageFit: 'contain',
+  },
+  {
+    slug: 'work-neon-railway-goods',
+    category: 'led-neon',
+    title: '동대구역 철도굿즈샵',
+    description: '철도굿즈샵 매장 안내용으로 제작한 스탠드형 LED네온 두 가지.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작 · 스탠드형',
+    imageUrl: '/images/work/neon-railway-goods-1.jpg',
+    imageFit: 'contain',
+    extraImageUrls: ['/images/work/neon-railway-goods-2.jpg'],
+    photoLayout: 'rows',
+  },
+  {
+    slug: 'work-neon-flame-character',
+    category: 'led-neon',
+    title: '불꽃 캐릭터 네온',
+    description: '불꽃 캐릭터 일러스트를 그대로 옮긴 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-flame-character.jpg',
+    imageFit: 'contain',
+  },
+  {
+    slug: 'work-neon-piano',
+    category: 'led-neon',
+    title: '피아노 학원 로고',
+    description: '타원 테두리 안에 한글·영문 이름을 넣은 피아노 학원 LED네온.',
+    material: 'LED 실리콘 네온',
+    method: '벤딩 제작',
+    imageUrl: '/images/work/neon-piano.jpg',
+  },
+  {
+    slug: 'work-neon-bifan',
+    category: 'led-neon',
+    title: '부천국제판타스틱영화제',
+    description: '영화제 30주년 로고를 대형 LED네온으로 제작해 행사장 건물에 설치한 사례.',
+    material: 'LED 실리콘 네온',
+    method: '대형 로고 제작',
+    imageUrl: '/images/work/neon-bifan-1.jpg',
+    extraImageUrls: ['/images/work/neon-bifan-2.jpg', '/images/work/neon-bifan-3.jpg'],
+    photoLayout: 'feature',
+  },
+  {
+    slug: 'work-scasi-celltec',
+    category: 'rubber-scasi',
+    title: '회사 로고 입체 문자',
+    description: '심볼과 영문 사명을 고무스카시로 정밀 컷팅한 회사 로고.',
+    material: '고무스카시',
+    method: '정밀 컷팅',
+    imageUrl: '/images/work/scasi-celltec.jpg',
+    imageFit: 'contain',
+    imageBg: 'linear-gradient(#b8ac95, #806e5e)',
+  },
+  {
+    slug: 'work-scasi-print-logo',
+    category: 'rubber-scasi',
+    title: '실사 부착 고무스카시',
+    description: '고무스카시 위에 컬러 실사를 붙여 색을 살린 입체 문자.',
+    material: '고무스카시',
+    method: '정밀 컷팅 · 실사 부착',
+    imageUrl: '/images/work/scasi-print-logo.jpg',
+    imageFit: 'contain',
+    imageBg: 'linear-gradient(#c3ad96, #423c38)',
+  },
+  {
+    slug: 'work-formex-dombo-logo',
+    category: 'formex',
+    title: '로고 포맥스 돔보',
+    description: '포맥스에 실사를 붙인 뒤 인쇄 외곽선을 따라 CNC로 돔보 가공한 로고.',
+    material: '포맥스',
+    method: '실사 부착 · CNC 돔보 가공',
+    imageUrl: '/images/work/formex-dombo-logo.jpg',
+  },
+  {
+    slug: 'work-acrylic-display-stand',
+    category: 'acrylic',
+    title: '제품 진열 아크릴 전시대',
+    description: '제품을 꽂아 진열할 수 있게 재단하고 절곡한 매장용 아크릴 전시대.',
+    material: '아크릴',
+    method: '재단 · 절곡',
+    imageUrl: '/images/work/acrylic-display-stand.jpg',
+    imageFit: 'contain',
+    imageBg: 'linear-gradient(#807c75, #706053)',
   },
   {
     slug: 'work-acrylic-child-center',
@@ -214,7 +301,7 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
     method: 'CNC 재단 · 뒷면 자석 부착',
     thickness: '5T',
     imageUrl: '/images/work/formex-hex-magnet-cnc.jpg',
-    secondImageUrl: '/images/work/formex-hex-magnet-stack.jpg',
+    extraImageUrls: ['/images/work/formex-hex-magnet-stack.jpg'],
   },
   {
     slug: 'led-neon-store-sign-case',

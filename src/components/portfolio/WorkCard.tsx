@@ -1,35 +1,47 @@
+import type { CSSProperties } from 'react';
 import Image from 'next/image';
 import type { PortfolioItem } from '@/lib/data/portfolio';
 import { PALETTE } from '@/lib/kTheme';
 
 /** K안 스타일 작업 사진 카드 (품목 페이지·제작 사례 공용). imageUrl 이 있는 항목만 넘긴다. */
 export function WorkCard({ item, background }: { item: PortfolioItem; background: string }) {
-  const photos = [item.imageUrl!, item.secondImageUrl].filter((src): src is string => Boolean(src));
-  const isPair = photos.length > 1;
-  const stacked = isPair && item.pairLayout === 'rows';
+  const photos = [item.imageUrl!, ...(item.extraImageUrls ?? [])];
+  const count = photos.length;
+  const layout = count === 1 ? 'single' : (item.photoLayout ?? 'columns');
   const contain = item.imageFit === 'contain';
 
-  const grid = !isPair ? 'grid-cols-1' : stacked ? 'grid-cols-1 grid-rows-2' : 'grid-cols-2';
-  // side-by-side photos are half the card wide; stacked or single ones span the full width
-  const sizes =
-    isPair && !stacked
-      ? '(min-width: 1024px) 190px, (min-width: 640px) 23vw, 45vw'
-      : '(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw';
+  const gridStyle: CSSProperties =
+    layout === 'columns'
+      ? { gridTemplateColumns: `repeat(${count}, minmax(0, 1fr))` }
+      : layout === 'rows'
+        ? { gridTemplateRows: `repeat(${count}, minmax(0, 1fr))` }
+        : layout === 'feature'
+          ? { gridTemplateColumns: '3fr 2fr', gridTemplateRows: `repeat(${count - 1}, minmax(0, 1fr))` }
+          : {};
+  if (contain) gridStyle.background = item.imageBg ?? '#171717';
+
+  // rendered width of each photo, so the browser fetches a sharp enough variant
+  const sizesFor = (index: number) => {
+    if (layout === 'columns') return `(min-width: 1024px) ${Math.round(380 / count)}px, ${Math.round(90 / count)}vw`;
+    if (layout === 'feature') return index === 0 ? '(min-width: 1024px) 230px, 55vw' : '(min-width: 1024px) 150px, 36vw';
+    return '(min-width: 1024px) 380px, (min-width: 640px) 45vw, 90vw';
+  };
 
   return (
     <figure className="m-0 flex flex-col gap-3 rounded-[32px] p-3.5" style={{ background }}>
-      <div
-        className={`relative grid h-[250px] gap-1.5 overflow-hidden rounded-[22px] ${grid}`}
-        style={contain ? { background: item.imageBg ?? '#171717' } : undefined}
-      >
+      <div className="relative grid h-[250px] gap-1.5 overflow-hidden rounded-[22px]" style={gridStyle}>
         {photos.map((src, index) => (
-          <div key={src} className="relative">
+          <div
+            key={src}
+            className="relative"
+            style={layout === 'feature' && index === 0 ? { gridRow: `1 / span ${count - 1}` } : undefined}
+          >
             <Image
               src={src}
-              alt={isPair ? `${item.title} (${index + 1}/${photos.length})` : item.title}
+              alt={count > 1 ? `${item.title} (${index + 1}/${count})` : item.title}
               fill
               quality={90}
-              sizes={sizes}
+              sizes={sizesFor(index)}
               className={contain ? 'object-contain' : 'object-cover'}
             />
           </div>
