@@ -15,12 +15,15 @@ export function ContactButtons({
   phoneClassName,
   className = '',
   showCalculator = false,
+  showMap = false,
 }: {
   quoteClassName: string;
   phoneClassName: string;
   className?: string;
   /** 전화번호 오른쪽에 네온 가격 계산기 버튼을 붙인다. */
   showCalculator?: boolean;
+  /** 전화번호 오른쪽에 네이버 지도 버튼을 붙인다. */
+  showMap?: boolean;
 }) {
   return (
     <div className={`flex flex-wrap gap-3 ${className}`}>
@@ -40,6 +43,16 @@ export function ContactButtons({
       <a href={`tel:${PHONE}`} className={`${BUTTON} ${phoneClassName}`}>
         {PHONE}
       </a>
+      {showMap && (
+        <a
+          href={NAVER_MAP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${BUTTON} bg-[#03C75A] text-white`}
+        >
+          네이버 지도 보기
+        </a>
+      )}
       {showCalculator && (
         <Link href="/configurator" className={`${BUTTON} bg-[#FFC2D6] text-[#2B2840]`}>
           네온 가격 직접 계산해보기

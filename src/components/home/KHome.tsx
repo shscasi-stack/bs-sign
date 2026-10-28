@@ -1,11 +1,10 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPinIcon } from 'lucide-react';
 import { CountUp } from '@/components/motion/CountUp';
 import { FadeIn } from '@/components/motion/FadeIn';
 import { PopIn } from '@/components/motion/PopIn';
 import { CATEGORY_PASTEL, PALETTE } from '@/lib/kTheme';
-import { ADDRESS, ContactButtons, NAVER_MAP_URL } from './ContactButtons';
+import { ContactButtons } from './ContactButtons';
 
 /**
  * 메인페이지 K안 (파스텔 버전).
@@ -239,17 +238,8 @@ export function KHome() {
               className="justify-center"
               quoteClassName="bg-white text-[#2B2840]"
               phoneClassName="bg-[#2B2840] text-white"
+              showMap
             />
-            <a
-              href={NAVER_MAP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex flex-wrap items-center justify-center gap-x-1.5 text-base font-bold underline underline-offset-4"
-            >
-              <MapPinIcon className="size-4" />
-              <span>{ADDRESS}</span>
-              <span>· 네이버 지도에서 보기 →</span>
-            </a>
           </FadeIn>
         </div>
       </section>

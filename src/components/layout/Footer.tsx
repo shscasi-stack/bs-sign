@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { GlobeIcon, HardDriveIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
 import { ADDRESS, NAVER_MAP_URL } from '@/components/home/ContactButtons';
 import { BRAND_NAME, NAV_ITEMS } from '@/lib/data/navigation';
+import { NaverMailLink } from './NaverMailLink';
 
 export function Footer() {
   return (
@@ -45,9 +46,7 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-1.5">
               <MailIcon className="size-3.5" />
-              <a href="mailto:moon9291@naver.com" className="hover:text-white">
-                moon9291@naver.com
-              </a>
+              <NaverMailLink email="moon9291@naver.com" className="hover:text-white" />
             </li>
             <li className="flex items-center gap-1.5">
               <MapPinIcon className="size-3.5" />
