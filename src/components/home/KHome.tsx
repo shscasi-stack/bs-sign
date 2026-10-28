@@ -54,6 +54,12 @@ const WORKS: { src: string; alt: string; caption: string; bg: string; containBg?
     bg: '#E8E0FF',
     containBg: 'linear-gradient(#0d110a, #0f120c)',
   },
+  {
+    src: '/images/work/neon-bifan-1.jpg',
+    alt: '부천국제판타스틱영화제 30주년 로고 LED네온',
+    caption: '부천국제판타스틱영화제',
+    bg: '#FFE0D1',
+  },
 ];
 
 const ITEMS = [
