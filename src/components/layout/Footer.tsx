@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { GlobeIcon, HardDriveIcon, MailIcon, MapPinIcon, PhoneIcon } from 'lucide-react';
+import { ADDRESS, NAVER_MAP_URL } from '@/components/home/ContactButtons';
 import { BRAND_NAME, NAV_ITEMS } from '@/lib/data/navigation';
 
 export function Footer() {
@@ -50,7 +51,14 @@ export function Footer() {
             </li>
             <li className="flex items-center gap-1.5">
               <MapPinIcon className="size-3.5" />
-              <span>부천로167번길 11, 1층</span>
+              <a
+                href={NAVER_MAP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-white"
+              >
+                {ADDRESS}
+              </a>
             </li>
             <li className="text-white/50">사업자등록번호 130-39-69877</li>
           </ul>

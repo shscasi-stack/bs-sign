@@ -3,6 +3,9 @@ import Link from 'next/link';
 export const PHONE = '010-9804-8285';
 /** 카카오톡 채널/오픈채팅 주소. 비어 있으면 카카오톡 버튼을 숨긴다. */
 const KAKAO_URL = 'https://open.kakao.com/o/sLiV3SJh';
+export const ADDRESS = '부천로167번길 11, 1층';
+/** 주소를 누르면 네이버 지도에서 가게 이름으로 검색한 화면이 열린다. */
+export const NAVER_MAP_URL = `https://map.naver.com/p/search/${encodeURIComponent('백송스카시')}`;
 
 const BUTTON = 'inline-flex items-center justify-center rounded-full px-7 py-4 text-base font-bold sm:text-lg';
 
